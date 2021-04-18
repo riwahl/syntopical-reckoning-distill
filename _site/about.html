@@ -86,22 +86,23 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Demo Distill: About this blog</title>
+  <title>Syntopical Reckoning: About this blog</title>
 
   <meta property="description" itemprop="description" content="Some additional details about the blog"/>
 
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Demo Distill: About this blog"/>
+  <meta property="og:title" content="Syntopical Reckoning: About this blog"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="Some additional details about the blog"/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Demo Distill"/>
+  <meta property="og:site_name" content="Syntopical Reckoning"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Demo Distill: About this blog"/>
+  <meta property="twitter:title" content="Syntopical Reckoning: About this blog"/>
   <meta property="twitter:description" content="Some additional details about the blog"/>
 
   <!--/radix_placeholder_meta_tags-->
@@ -2043,8 +2044,81 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+  <style type="text/css">
+  /* Import fonts from Google's API */
+  @import url('https://fonts.googleapis.com/css2?family=Cardo');
+  @import url('https://fonts.googleapis.com/css2?family=Alata');
+
+
+
+  .distill-site-nav {
+      font-family: 'Alata', sans-serif;
+      color: #000;
+      background-color: #fff;
+      font-size: 15px;
+      font-weight: 400;
+  }
+
+  .distill-site-header {
+      font-family: 'Alata', sans-serif;
+      color: #000;
+      background-color: #fff;
+      font-size: 15px;
+      font-weight: 400;
+  }
+
+  .distill-site-nav a:hover {
+      color: #ff00ff;
+  }
+
+  .categories li > a:hover {
+      color: #00ff00;
+      border-bottom: 1px #00ff00;
+  }
+
+  p a:hover  {
+      color: #00ff00;
+  }
+
+  /* Change appearance of headers */
+  h1, h2, h3, h4, h5 {
+      font-family: 'Alata', sans-serif;
+      font-weight: 700;
+  }
+
+  /* Use specific font in the body of the text */
+  html, body, p {
+      
+      font-family: 'Cardo', serif;
+      font-weight: 200;
+      line-height: 1.3; 
+      font-size: 1.075em;
+      font-style: normal;
+      
+  }
+
+  .posts-list .description p {
+      font-family: 'Cardo', serif !important;
+      color: gray !important;
+  }
+
+  .posts-list .description h2 {
+      font-family: 'Alata', sans-serif !important;
+  }
+
+  d-appendix {
+      color: rgb(0, 0, 0) !important;
+  }
+
+  li::marker {
+      font-weight: 700;
+      font-size: 1.125em;
+  }
+
+  </style>
   <!--/radix_placeholder_site_in_header-->
 
+  <link rel="stylesheet" href="mmstyle.css" type="text/css"/>
 
 </head>
 
@@ -2061,12 +2135,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
-<a href="index.html" class="title">Demo Distill</a>
+<a class="logo" href="https://milesmcbain.xyz">
+<img src="images/i_like_turtles_bis.png" alt="Logo"/>
+</a>
+<a href="index.html" class="title">Syntopical Reckoning</a>
 <input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
+<a href="index.xml">
+<i class="fa fa-rss" aria-hidden="true"></i>
+</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -2096,7 +2176,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://www.github.com/milesmcbain/website_distill/issues/new">create an issue</a> on the source repository.</p>
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://www.github.com/milesmcbain/website_distill">https://www.github.com/milesmcbain/website_distill</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->

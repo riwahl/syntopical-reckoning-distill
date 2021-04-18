@@ -1,5 +1,9 @@
 ---
-title: "Demo Distill"
-site: distill::distill_website
-listing: posts
+title: "About this blog"
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+This blog of Rikard Wahlström
