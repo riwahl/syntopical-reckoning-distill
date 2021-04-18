@@ -1,12 +1,31 @@
-name: "syntopical-reckoning-distill"
-title: "Demo Distill"
+name: "Syntopical Reckoning"
+title: "Syntopical Reckoning"
 description: |
-  Demo Distill
+  Syntopical Reckoning
 output_dir: "_site"
 navbar:
+  logo:
+    image: images/i_like_turtles_bis.png
+    href: https://milesmcbain.xyz
   right:
     - text: "Home"
       href: index.html
+    - text: "micro.blog"
+      href: https://milesmcbain.micro.blog
+    - text: "Talks"
+      href: talks.html
+    - text: "Other writings"
+      href: other_writings.html
     - text: "About"
       href: about.html
-output: distill::distill_article
+    - icon: fa fa-rss
+      href: index.xml
+output:
+  distill::distill_article:
+    css: mmstyle.css
+    includes:
+#      in_header: utterances.html
+base_url: https://mystifying-sinoussi-a883d6.netlify.app/
+repository_url: https://www.github.com/milesmcbain/website_distill
+#favicon: images/favicon.ico
+creative_commons: CC BY
