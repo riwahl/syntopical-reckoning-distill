@@ -4,9 +4,9 @@ description: |
   Syntopical Reckoning
 output_dir: "_site"
 navbar:
-  logo:
-    image: images/i_like_turtles_bis.png
-    href: https://milesmcbain.xyz
+#  logo:
+#    image: images/i_like_turtles_bis.png
+#    href: https://milesmcbain.xyz
   right:
     - text: "Home"
       href: index.html

@@ -1,19 +1,19 @@
 [
   {
-    "path": "posts/welcome/",
-    "title": "Welcome to Syntopical Reckoning",
-    "description": "Reckoning -- syntopically!",
+    "path": "posts/2021-04-18-new-test-post/",
+    "title": "New test post",
+    "description": "A short description of the post.",
     "author": [
       {
-        "name": "Rikard Wahlström",
-        "url": "https://mystifying-sinoussi-a883d6.netlify.app/"
+        "name": "Unknown",
+        "url": {}
       }
     ],
     "date": "2021-04-18",
     "categories": [],
-    "contents": "\r\n\r\n\r\n\r\n",
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-04-18T10:59:49+02:00",
+    "last_modified": "2021-04-18T14:42:53+02:00",
     "input_file": {}
   },
   {
@@ -30,24 +30,24 @@
     "categories": [],
     "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-04-18T14:40:38+02:00",
-    "input_file": "test-post.utf8.md"
+    "last_modified": "2021-04-18T14:40:39+02:00",
+    "input_file": {}
   },
   {
-    "path": "posts/2021-04-18-new-test-post/",
-    "title": "New test post",
-    "description": "A short description of the post.",
+    "path": "posts/welcome/",
+    "title": "Welcome to Syntopical Reckoning",
+    "description": "Reckoning -- syntopically!",
     "author": [
       {
-        "name": "Unknown",
-        "url": {}
+        "name": "Rikard Wahlström",
+        "url": "https://mystifying-sinoussi-a883d6.netlify.app/"
       }
     ],
     "date": "2021-04-18",
     "categories": [],
-    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "contents": "\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-04-18T14:40:51+02:00",
-    "input_file": "new-test-post.utf8.md"
+    "last_modified": "2021-04-18T10:59:49+02:00",
+    "input_file": {}
   }
 ]
