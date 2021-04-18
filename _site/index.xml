@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>Syntopical Reckoning</title>
+    <link>https://mystifying-sinoussi-a883d6.netlify.app/</link>
+    <atom:link href="https://mystifying-sinoussi-a883d6.netlify.app/index.xml" rel="self" type="application/rss+xml"/>
+    <description>Syntopical Reckoning
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Sun, 18 Apr 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Welcome to Syntopical Reckoning</title>
+      <dc:creator>Rikard Wahlström</dc:creator>
+      <link>https://mystifying-sinoussi-a883d6.netlify.app/posts/welcome</link>
+      <description>Reckoning -- syntopically!</description>
+      <guid>https://mystifying-sinoussi-a883d6.netlify.app/posts/welcome</guid>
+      <pubDate>Sun, 18 Apr 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Test post</title>
+      <dc:creator>Unknown</dc:creator>
+      <link>https://mystifying-sinoussi-a883d6.netlify.app/posts/2021-04-18-test-post</link>
+      <description>A short description of the post.</description>
+      <guid>https://mystifying-sinoussi-a883d6.netlify.app/posts/2021-04-18-test-post</guid>
+      <pubDate>Sun, 18 Apr 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>New test post</title>
+      <dc:creator>Unknown</dc:creator>
+      <link>https://mystifying-sinoussi-a883d6.netlify.app/posts/2021-04-18-new-test-post</link>
+      <description>A short description of the post.</description>
+      <guid>https://mystifying-sinoussi-a883d6.netlify.app/posts/2021-04-18-new-test-post</guid>
+      <pubDate>Sat, 17 Apr 2021 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
