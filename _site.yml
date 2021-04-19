@@ -14,7 +14,7 @@ navbar:
       href: about.html
     - icon: fa fa-github
       href: https://github.com/riwahl
-    - icon: fa fa-rss
+    - icon: fa fa-rss # Hidden until you can figure out how to set up RSS feed
       href: index.xml
 output:
   distill::distill_article:
@@ -23,4 +23,6 @@ output:
 #      in_header: utterances.html
 base_url: https://mystifying-sinoussi-a883d6.netlify.app/
 repository_url: https://github.com/riwahl/syntopical-reckoning-distill
-#favicon: images/favicon.ico
+favicon: images/favicon.ico
+rss:
+  full_content: false

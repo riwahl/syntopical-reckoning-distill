@@ -1483,9 +1483,54 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<p>Distill is a publication format for scientific and technical writing, native to the web.</p>
-<p>Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#header-1">Header 1</a>
+<ul>
+<li><a href="#header-2">Header 2</a>
+<ul>
+<li><a href="#header-3">Header 3</a>
+<ul>
+<li><a href="#header-4">Header 4</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<p>This is some test code to see how it looks.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>write_alt_text</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span>
+  <span class='va'>chart_type</span>, 
+  <span class='va'>type_of_data</span>, 
+  <span class='va'>reason</span>, 
+  <span class='va'>source</span>
+  <span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span>
+    <span class='st'>"{chart_type} of {type_of_data} where {reason}. \n\nData source from {source}"</span>
+    <span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='fu'>write_alt_text</span><span class='op'>(</span>
+  <span class='st'>"Bar Chart"</span>, 
+  <span class='st'>"tweets from the past week tagged with the TidyTuesday hashtag"</span>, 
+  <span class='st'>"Tuesday is the most popular day to post tweets, although about 20-30 tweets are posted every day"</span>, 
+  <span class='st'>"the {rtweet} package."</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Bar Chart of tweets from the past week tagged with the TidyTuesday hashtag where Tuesday is the most popular day to post tweets, although about 20-30 tweets are posted every day. 
+
+Data source from the {rtweet} package.</code></pre>
+</div>
+<h1 id="header-1">Header 1</h1>
+<h2 id="header-2">Header 2</h2>
+<h3 id="header-3">Header 3</h3>
+<h4 id="header-4">Header 4</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -32,9 +32,9 @@
       "R",
       "statistics"
     ],
-    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "contents": "\r\n\r\nContents\r\nHeader 1\r\nHeader 2\r\nHeader 3\r\nHeader 4\r\n\r\n\r\n\r\n\r\nThis is some test code to see how it looks.\r\n\r\n\r\nwrite_alt_text <- function(\r\n  chart_type, \r\n  type_of_data, \r\n  reason, \r\n  source\r\n  ){\r\n  glue::glue(\r\n    \"{chart_type} of {type_of_data} where {reason}. \\n\\nData source from {source}\"\r\n    )\r\n}\r\n\r\nwrite_alt_text(\r\n  \"Bar Chart\", \r\n  \"tweets from the past week tagged with the TidyTuesday hashtag\", \r\n  \"Tuesday is the most popular day to post tweets, although about 20-30 tweets are posted every day\", \r\n  \"the {rtweet} package.\"\r\n  )\r\n\r\n\r\nBar Chart of tweets from the past week tagged with the TidyTuesday hashtag where Tuesday is the most popular day to post tweets, although about 20-30 tweets are posted every day. \r\n\r\nData source from the {rtweet} package.\r\n\r\nHeader 1\r\nHeader 2\r\nHeader 3\r\nHeader 4\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-04-19T06:55:04+02:00",
+    "last_modified": "2021-04-19T07:00:22+02:00",
     "input_file": {}
   },
   {
