@@ -22,15 +22,19 @@
     "description": "A short description of the post.",
     "author": [
       {
-        "name": "Unknown",
+        "name": "Rikard Wahlström",
         "url": {}
       }
     ],
     "date": "2021-04-18",
-    "categories": [],
+    "categories": [
+      "test",
+      "R",
+      "statistics"
+    ],
     "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-04-18T14:40:39+02:00",
+    "last_modified": "2021-04-19T06:55:04+02:00",
     "input_file": {}
   },
   {

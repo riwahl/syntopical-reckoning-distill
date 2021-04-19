@@ -3,7 +3,7 @@ title: "New test post"
 description: |
   A short description of the post.
 author:
-  - name: Unknown
+  - name: Rikard Wahlström
 date: 04-18-2021
 output:
   distill::distill_article:

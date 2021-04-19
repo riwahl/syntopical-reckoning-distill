@@ -6,12 +6,14 @@ output_dir: "_site"
 navbar:
 #  logo:
 #    image: images/i_like_turtles_bis.png
-#    href: https://milesmcbain.xyz
+#    href: https://mystifying-sinoussi-a883d6.netlify.app/
   right:
     - text: "Home"
       href: index.html
     - text: "About"
       href: about.html
+    - icon: fa fa-github
+      href: https://github.com/riwahl
     - icon: fa fa-rss
       href: index.xml
 output:
@@ -20,5 +22,5 @@ output:
     includes:
 #      in_header: utterances.html
 base_url: https://mystifying-sinoussi-a883d6.netlify.app/
-repository_url: https://www.github.com/milesmcbain/website_distill
+repository_url: https://github.com/riwahl/syntopical-reckoning-distill
 #favicon: images/favicon.ico

@@ -2138,6 +2138,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="nav-right">
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
+<a href="https://github.com/riwahl">
+<i class="fa fa-github" aria-hidden="true"></i>
+</a>
 <a href="index.xml">
 <i class="fa fa-rss" aria-hidden="true"></i>
 </a>
@@ -2280,7 +2283,7 @@ function init_posts_list() {
 
 
 
-<div class="posts-container posts-apply-limit l-page">
+<div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="Posts">Posts</h1>
 <a href="posts/2021-04-18-new-test-post/" class="post-preview">
@@ -2301,11 +2304,11 @@ function init_posts_list() {
 </div>
 </a>
 <a href="posts/2021-04-18-test-post/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["test","R","statistics"]}</script>
 <div class="metadata">
 <div class="publishedDate">April 18, 2021</div>
 <div class="dt-authors">
-<div class="dt-author">Unknown</div>
+<div class="dt-author">Rikard Wahlström</div>
 </div>
 </div>
 <div class="thumbnail">
@@ -2313,7 +2316,11 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>Test post</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">test</div>
+<div class="dt-tag">R</div>
+<div class="dt-tag">statistics</div>
+</div>
 <p>A short description of the post.</p>
 </div>
 </a>
@@ -2334,6 +2341,29 @@ function init_posts_list() {
 <p>Reckoning -- syntopically!</p>
 </div>
 </a>
+</div>
+<div class="posts-sidebar">
+<div class="sidebar-section categories">
+<h3>Categories</h3>
+<ul>
+<li>
+<a href="#category:Articles">Articles</a>
+<span class="category-count">(3)</span>
+</li>
+<li>
+<a href="#category:R">R</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:statistics">statistics</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:test">test</a>
+<span class="category-count">(1)</span>
+</li>
+</ul>
+</div>
 </div>
 <div class="posts-more">
 <a href="#">More articles &raquo;</a>
@@ -2364,7 +2394,7 @@ function init_posts_list() {
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom">
 <h3 id="updates-and-corrections">Corrections</h3>
-<p>If you see mistakes or want to suggest changes, please <a href="https://www.github.com/milesmcbain/website_distill/issues/new">create an issue</a> on the source repository.</p>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/riwahl/syntopical-reckoning-distill/issues/new">create an issue</a> on the source repository.</p>
 </div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
