@@ -24,29 +24,6 @@ knitr::opts_chunk$set(echo =TRUE)
 
 This is some test code to see how it looks. 
 
-```{r}
-
-
-write_alt_text <- function(
-  chart_type, 
-  type_of_data, 
-  reason, 
-  source
-  ){
-  glue::glue(
-    "{chart_type} of {type_of_data} where {reason}. \n\nData source from {source}"
-    )
-}
-
-write_alt_text(
-  "Bar Chart", 
-  "tweets from the past week tagged with the TidyTuesday hashtag", 
-  "Tuesday is the most popular day to post tweets, although about 20-30 tweets are posted every day", 
-  "the {rtweet} package."
-  )
-
-
-```
 
 # Header 1
 
