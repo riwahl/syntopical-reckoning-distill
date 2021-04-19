@@ -9,25 +9,6 @@
     <generator>Distill</generator>
     <lastBuildDate>Sun, 18 Apr 2021 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>New test post</title>
-      <dc:creator>Unknown</dc:creator>
-      <link>https://mystifying-sinoussi-a883d6.netlify.app/posts/2021-04-18-new-test-post</link>
-      <description>A short description of the post.</description>
-      <guid>https://mystifying-sinoussi-a883d6.netlify.app/posts/2021-04-18-new-test-post</guid>
-      <pubDate>Sun, 18 Apr 2021 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>Test post</title>
-      <dc:creator>Rikard Wahlström</dc:creator>
-      <link>https://mystifying-sinoussi-a883d6.netlify.app/posts/2021-04-18-test-post</link>
-      <description>A short description of the post.</description>
-      <category>test</category>
-      <category>R</category>
-      <category>statistics</category>
-      <guid>https://mystifying-sinoussi-a883d6.netlify.app/posts/2021-04-18-test-post</guid>
-      <pubDate>Sun, 18 Apr 2021 00:00:00 +0000</pubDate>
-    </item>
-    <item>
       <title>Welcome to Syntopical Reckoning</title>
       <dc:creator>Rikard Wahlström</dc:creator>
       <link>https://mystifying-sinoussi-a883d6.netlify.app/posts/welcome</link>
