@@ -8,4 +8,6 @@ description: |
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-[*more information coming*]
+Hi! I'm Rikard Wahlström, and welcome to my site, dedicated to statistics and all things R. 
+
+More information to come! 
