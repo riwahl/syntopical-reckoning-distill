@@ -6,7 +6,7 @@ output_dir: "_site"
 navbar:
 #  logo:
 #    image: images/i_like_turtles_bis.png
-#    href: https://mystifying-sinoussi-a883d6.netlify.app/
+#    href: https://www.syntopicalreckoning.com/
   right:
     - text: "Home"
       href: index.html

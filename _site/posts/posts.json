@@ -6,7 +6,7 @@
     "author": [
       {
         "name": "Rikard Wahlström",
-        "url": "https://mystifying-sinoussi-a883d6.netlify.app/"
+        "url": "https://www.syntopicalreckoning.com/"
       }
     ],
     "date": "2021-04-18",
@@ -14,9 +14,9 @@
       "posts",
       "category"
     ],
-    "contents": "\r\n\r\n\r\n\r\n",
+    "contents": "\r\nThis is a test post.\r\nIs this showing?\r\n\r\n\r\nx <- c(1, 2, 3, 4)\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-04-19T17:52:11+02:00",
-    "input_file": {}
+    "last_modified": "2021-04-27T20:24:44+02:00",
+    "input_file": "welcome.utf8.md"
   }
 ]
