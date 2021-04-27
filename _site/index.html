@@ -2280,11 +2280,11 @@ function init_posts_list() {
 
 
 
-<div class="posts-container posts-apply-limit l-page">
+<div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="Posts">Posts</h1>
 <a href="posts/welcome/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["posts","category"]}</script>
 <div class="metadata">
 <div class="publishedDate">April 18, 2021</div>
 <div class="dt-authors">
@@ -2296,10 +2296,32 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>Welcome to Syntopical Reckoning</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">posts</div>
+<div class="dt-tag">category</div>
+</div>
 <p>Reckoning -- syntopically!</p>
 </div>
 </a>
+</div>
+<div class="posts-sidebar">
+<div class="sidebar-section categories">
+<h3>Categories</h3>
+<ul>
+<li>
+<a href="#category:articles">articles</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:category">category</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:posts">posts</a>
+<span class="category-count">(1)</span>
+</li>
+</ul>
+</div>
 </div>
 <div class="posts-more">
 <a href="#">More articles &raquo;</a>

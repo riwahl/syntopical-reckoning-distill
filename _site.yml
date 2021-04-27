@@ -21,7 +21,7 @@ output:
     css: mmstyle.css
     includes:
 #      in_header: utterances.html
-base_url: https://mystifying-sinoussi-a883d6.netlify.app/
+base_url: https://www.syntopicalreckoning.com/
 repository_url: https://github.com/riwahl/syntopical-reckoning-distill
 #favicon: images/favicon.ico
 #rss:

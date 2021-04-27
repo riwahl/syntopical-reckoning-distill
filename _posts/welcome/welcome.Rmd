@@ -4,7 +4,7 @@ description: |
   Reckoning -- syntopically!
 author:
   - name: Rikard Wahlström
-    url: https://mystifying-sinoussi-a883d6.netlify.app/
+    url: https://www.syntopicalreckoning.com/
 date: 04-18-2021
 output:
   distill::distill_article:
@@ -12,9 +12,8 @@ output:
     toc: true
     toc_depth: 4
 categories:
-  - test1
-  - test2
-  - test3
+  - posts
+  - category
 ---
 
 ```{r setup, include=FALSE}
@@ -26,4 +25,14 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
+
+This is a test post. 
+
+Is this showing?
+
+```{r}
+
+x <- c(1, 2, 3, 4)
+
+```
 
