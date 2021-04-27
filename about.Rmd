@@ -1,7 +1,6 @@
 ---
-title: "About this blog"
-description: |
-  Some additional details about the blog
+title: "About Syntopical Reckoning"
+
 ---
 
 ```{r setup, include=FALSE}

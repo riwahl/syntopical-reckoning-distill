@@ -2,11 +2,10 @@
   "articles": [
     {
       "path": "about.html",
-      "title": "About this blog",
-      "description": "Some additional details about the blog",
+      "title": "About Syntopical Reckoning",
       "author": [],
       "contents": "\r\nHi! I’m Rikard Wahlström, and welcome to my site, dedicated to statistics and all things R.\r\nMore information to come!\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-04-27T20:26:57+02:00"
+      "last_modified": "2021-04-27T20:33:58+02:00"
     },
     {
       "path": "index.html",
