@@ -28,6 +28,4 @@ repository_url: https://github.com/riwahl/syntopical-reckoning-distill
 #  full_content: false
 collections:
   posts:
-    disqus:
-      shortname: syntopicalreckoning
-      hidden: true
+    disqus: syntopicalreckoning
