@@ -26,3 +26,8 @@ repository_url: https://github.com/riwahl/syntopical-reckoning-distill
 #favicon: images/favicon.ico
 #rss:
 #  full_content: false
+collections:
+  posts:
+    disqus:
+      shortname: syntopicalreckoning
+      hidden: true
