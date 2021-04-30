@@ -1,0 +1,87 @@
+---
+title: "Ten Tidyverse tricks everyone should know"
+description: |
+  A short description of the post.
+author:
+  - name: Rikard WahlstrÃ¶m
+    url: https://www.syntopicalreckoning.com/
+date: 04-28-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 4
+draft: TRUE
+categories:
+  - posts
+  - tidyverse
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+theme_set(theme_minimal())
+
+```
+
+I recently came across a presentation by Dave Robinson on the [Lander Analytics YouTube channel](https://www.youtube.com/watch?v=NDHSBUN_rVU), in which he presents ten Tidyverse tricks. I thought I would share them here in written form, with examples for each.
+
+
+Let's start by firing up the `tidyverse`!
+
+```{r, message = FALSE, echo = TRUE}
+
+library(tidyverse)
+library(janitor)
+
+```
+
+
+
+**1. `Count()`**
+
+`count()` comes from the `{dplyr}` package (which, of course, is part of the `tidyverse`). 
+
+Dave showcases `count()` using the data from a TidyTuesday project from 2018 for recent college graduates (link [here](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-10-16)), so let's use the same dataset here:
+
+```{r, message = FALSE, echo = TRUE}
+
+tt <- tidytuesdayR::tt_load('2018-10-16')
+
+grads <- tt$`recent-grads` %>% 
+  clean_names()
+
+```
+
+
+
+```{r}
+
+grads %>% 
+  count(major_category,
+        sort = TRUE,
+        wt = total,
+        name = "graduates")
+```
+
+
+**2. Creating variables in `count()`**
+
+**3. `add_count()`**
+
+**4. `summarize()` with a list column**
+
+**5. `fct_reorder()` + `geom_col()` + `coord_flip()`**
+
+**6. `fct_lump()`**
+
+**7. `scale_x`/`y_log10`**
+
+**8. `crossing()`**
+
+**9. `separate()`**
+
+**10. `extract()`**
+
+

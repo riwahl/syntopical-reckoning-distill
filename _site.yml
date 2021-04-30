@@ -1,7 +1,7 @@
 name: "Syntopical Reckoning"
 title: "Syntopical Reckoning"
 description: |
-  Syntopical Reckoning
+  Reckoning syntopically with R
 output_dir: "_site"
 navbar:
 #  logo:

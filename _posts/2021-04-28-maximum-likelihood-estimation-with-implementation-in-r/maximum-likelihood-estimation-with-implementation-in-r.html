@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="https://www.syntopicalreckoning.com/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -87,635 +86,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Syntopical Reckoning: Posts</title>
+  <title>Maximum likelihood estimation - with implementation in R</title>
+
+  <meta property="description" itemprop="description" content="Exploring maximum likelihood estimation with an example of how it can be implemented in R."/>
 
 
-
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-04-28"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-04-28"/>
+  <meta name="article:author" content="Rikard Wahlström"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Syntopical Reckoning: Posts"/>
+  <meta property="og:title" content="Maximum likelihood estimation - with implementation in R"/>
   <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Exploring maximum likelihood estimation with an example of how it can be implemented in R."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Syntopical Reckoning"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Syntopical Reckoning: Posts"/>
+  <meta property="twitter:title" content="Maximum likelihood estimation - with implementation in R"/>
+  <meta property="twitter:description" content="Exploring maximum likelihood estimation with an example of how it can be implemented in R."/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":["Posts"]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","categories"]}},"value":[{"type":"character","attributes":{},"value":["Maximum likelihood estimation - with implementation in R"]},{"type":"character","attributes":{},"value":["Exploring maximum likelihood estimation with an example of how it can be implemented in R.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Rikard Wahlström"]},{"type":"character","attributes":{},"value":["https://www.syntopicalreckoning.com/"]}]}]},{"type":"character","attributes":{},"value":["04-28-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["posts","statistics"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["maximum-likelihood-estimation-with-implementation-in-r_files/anchor-4.2.2/anchor.min.js","maximum-likelihood-estimation-with-implementation-in-r_files/bowser-1.9.3/bowser.min.js","maximum-likelihood-estimation-with-implementation-in-r_files/distill-2.2.21/template.v2.js","maximum-likelihood-estimation-with-implementation-in-r_files/figure-html5/unnamed-chunk-5-1.png","maximum-likelihood-estimation-with-implementation-in-r_files/header-attrs-2.7/header-attrs.js","maximum-likelihood-estimation-with-implementation-in-r_files/jquery-1.11.3/jquery.min.js","maximum-likelihood-estimation-with-implementation-in-r_files/popper-2.6.0/popper.min.js","maximum-likelihood-estimation-with-implementation-in-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","maximum-likelihood-estimation-with-implementation-in-r_files/tippy-6.2.7/tippy-light-border.css","maximum-likelihood-estimation-with-implementation-in-r_files/tippy-6.2.7/tippy.css","maximum-likelihood-estimation-with-implementation-in-r_files/tippy-6.2.7/tippy.umd.min.js","maximum-likelihood-estimation-with-implementation-in-r_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
   <!--radix_placeholder_navigation_in_header-->
-  <meta name="distill:offset" content=""/>
-
-  <script type="application/javascript">
-
-    window.headroom_prevent_pin = false;
-
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        tolerance: 5,
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
-  </script>
-
-  <style type="text/css">
-
-  /* Theme (user-documented overrideables for nav appearance) */
-
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #0F2E3D;
-    font-size: 15px;
-    font-weight: 300;
-  }
-
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .distill-site-nav a:hover {
-    color: white;
-  }
-
-  @media print {
-    .distill-site-nav {
-      display: none;
-    }
-  }
-
-  .distill-site-header {
-
-  }
-
-  .distill-site-footer {
-
-  }
-
-
-  /* Site Header */
-
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-
-
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-
-  .distill-site-header .title {
-    font-size: 18px;
-    min-width: 150px;
-  }
-
-  .distill-site-header .logo {
-    padding: 0;
-  }
-
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-
-
-
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-
-
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-dropdown-active {
-    display: block;
-  }
-
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative; min-height: 500px; }
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-
-  /* Site Footer */
-
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-
-  /* Headroom */
-
-  d-title {
-    padding-top: 6rem;
-  }
-
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-
-  .headroom--unpinned {
-    top: -100px;
-  }
-
-  .headroom--pinned {
-    top: 0;
-  }
-
-  /* adjust viewport for navbar height */
-  /* helps vertically center bootstrap (non-distill) content */
-  .min-vh-100 {
-    min-height: calc(100vh - 100px) !important;
-  }
-
-  </style>
-
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
-  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
-  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
-
-  <script type="application/javascript">
-
-  function getMeta(metaName) {
-    var metas = document.getElementsByTagName('meta');
-    for (let i = 0; i < metas.length; i++) {
-      if (metas[i].getAttribute('name') === metaName) {
-        return metas[i].getAttribute('content');
-      }
-    }
-    return '';
-  }
-
-  function offsetURL(url) {
-    var offset = getMeta('distill:offset');
-    return offset ? offset + '/' + url : url;
-  }
-
-  function createFuseIndex() {
-
-    // create fuse index
-    var options = {
-      keys: [
-        { name: 'title', weight: 20 },
-        { name: 'categories', weight: 15 },
-        { name: 'description', weight: 10 },
-        { name: 'contents', weight: 5 },
-      ],
-      ignoreLocation: true,
-      threshold: 0
-    };
-    var fuse = new window.Fuse([], options);
-
-    // fetch the main search.json
-    return fetch(offsetURL('search.json'))
-      .then(function(response) {
-        if (response.status == 200) {
-          return response.json().then(function(json) {
-            // index main articles
-            json.articles.forEach(function(article) {
-              fuse.add(article);
-            });
-            // download collections and index their articles
-            return Promise.all(json.collections.map(function(collection) {
-              return fetch(offsetURL(collection)).then(function(response) {
-                if (response.status === 200) {
-                  return response.json().then(function(articles) {
-                    articles.forEach(function(article) {
-                      fuse.add(article);
-                    });
-                  })
-                } else {
-                  return Promise.reject(
-                    new Error('Unexpected status from search index request: ' +
-                              response.status)
-                  );
-                }
-              });
-            })).then(function() {
-              return fuse;
-            });
-          });
-
-        } else {
-          return Promise.reject(
-            new Error('Unexpected status from search index request: ' +
-                        response.status)
-          );
-        }
-      });
-  }
-
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-
-    // get search element (bail if we don't have one)
-    var searchEl = window.document.getElementById('distill-search');
-    if (!searchEl)
-      return;
-
-    createFuseIndex()
-      .then(function(fuse) {
-
-        // make search box visible
-        searchEl.classList.remove('hidden');
-
-        // initialize autocomplete
-        var options = {
-          autoselect: true,
-          hint: false,
-          minLength: 2,
-        };
-        window.autocomplete(searchEl, options, [{
-          source: function(query, callback) {
-            const searchOptions = {
-              isCaseSensitive: false,
-              shouldSort: true,
-              minMatchCharLength: 2,
-              limit: 10,
-            };
-            var results = fuse.search(query, searchOptions);
-            callback(results
-              .map(function(result) { return result.item; })
-            );
-          },
-          templates: {
-            suggestion: function(suggestion) {
-              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
-                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
-                : '';
-              var html = `
-                <div class="search-item">
-                  <h3>${suggestion.title}</h3>
-                  <div class="search-item-description">
-                    ${suggestion.description || ''}
-                  </div>
-                  <div class="search-item-preview">
-                    ${img}
-                  </div>
-                </div>
-              `;
-              return html;
-            }
-          }
-        }]).on('autocomplete:selected', function(event, suggestion) {
-          window.location.href = offsetURL(suggestion.path);
-        });
-        // remove inline display style on autocompleter (we want to
-        // manage responsive display via css)
-        $('.algolia-autocomplete').css("display", "");
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-
-  });
-
-  </script>
-
-  <style type="text/css">
-
-  .nav-search {
-    font-size: x-small;
-  }
-
-  /* Algolioa Autocomplete */
-
-  .algolia-autocomplete {
-    display: inline-block;
-    margin-left: 10px;
-    vertical-align: sub;
-    background-color: white;
-    color: black;
-    padding: 6px;
-    padding-top: 8px;
-    padding-bottom: 0;
-    border-radius: 6px;
-    border: 1px #0F2E3D solid;
-    width: 180px;
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .distill-site-nav .algolia-autocomplete {
-      display: none;
-      visibility: hidden;
-    }
-    .distill-site-nav.responsive .algolia-autocomplete {
-      display: inline-block;
-      visibility: visible;
-    }
-    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
-      margin-left: 0;
-      width: 400px;
-      max-height: 400px;
-    }
-  }
-
-  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
-    width: 90%;
-    outline: none;
-    border: none;
-  }
-
-  .algolia-autocomplete .aa-hint {
-    color: #999;
-  }
-  .algolia-autocomplete .aa-dropdown-menu {
-    width: 550px;
-    max-height: 70vh;
-    overflow-x: visible;
-    overflow-y: scroll;
-    padding: 5px;
-    margin-top: 3px;
-    margin-left: -150px;
-    background-color: #fff;
-    border-radius: 5px;
-    border: 1px solid #999;
-    border-top: none;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
-    cursor: pointer;
-    padding: 5px 4px;
-    border-bottom: 1px solid #eee;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
-    border-bottom: none;
-    margin-bottom: 2px;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
-    overflow: hidden;
-    font-size: 0.8em;
-    line-height: 1.4em;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
-    font-size: 1rem;
-    margin-block-start: 0;
-    margin-block-end: 5px;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
-    display: inline-block;
-    overflow: hidden;
-    height: 2.8em;
-    width: 80%;
-    margin-right: 4%;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
-    display: inline-block;
-    width: 15%;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
-    height: 3em;
-    width: auto;
-    display: none;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
-    display: initial;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
-    background-color: #eee;
-  }
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
-    font-weight: bold;
-    font-style: normal;
-  }
-
-  </style>
-
-
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
 
@@ -2031,317 +1434,329 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
-  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
-  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
-  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
-  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
-  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="maximum-likelihood-estimation-with-implementation-in-r_files/header-attrs-2.7/header-attrs.js"></script>
+  <script src="maximum-likelihood-estimation-with-implementation-in-r_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="maximum-likelihood-estimation-with-implementation-in-r_files/popper-2.6.0/popper.min.js"></script>
+  <link href="maximum-likelihood-estimation-with-implementation-in-r_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="maximum-likelihood-estimation-with-implementation-in-r_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="maximum-likelihood-estimation-with-implementation-in-r_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="maximum-likelihood-estimation-with-implementation-in-r_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="maximum-likelihood-estimation-with-implementation-in-r_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="maximum-likelihood-estimation-with-implementation-in-r_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="maximum-likelihood-estimation-with-implementation-in-r_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <style type="text/css">
-  /* Import fonts from Google's API */
-  @import url('https://fonts.googleapis.com/css2?family=Cardo');
-  @import url('https://fonts.googleapis.com/css2?family=Alata');
-
-
-
-  .distill-site-nav {
-      font-family: 'Alata', sans-serif;
-      color: #000;
-      background-color: #fff;
-      font-size: 15px;
-      font-weight: 400;
-  }
-
-  .distill-site-header {
-      font-family: 'Alata', sans-serif;
-      color: #000;
-      background-color: #fff;
-      font-size: 15px;
-      font-weight: 400;
-  }
-
-  .distill-site-nav a:hover {
-      color: #ff6700;
-  }
-
-  .categories li > a:hover {
-      color: #00ff00;
-      border-bottom: 1px #00ff00;
-  }
-
-  p a:hover  {
-      color: #00ff00;
-  }
-
-  /* Change appearance of headers */
-  h1, h2, h3, h4, h5 {
-      font-family: 'Alata', sans-serif;
-      font-weight: 700;
-  }
-
-  /* Use specific font in the body of the text */
-  html, body, p {
-      
-      font-family: 'Cardo', serif;
-      font-weight: 200;
-      line-height: 1.3; 
-      font-size: 1.075em;
-      font-style: normal;
-      
-  }
-
-  .posts-list .description p {
-      font-family: 'Cardo', serif !important;
-      color: gray !important;
-  }
-
-  .posts-list .description h2 {
-      font-family: 'Alata', sans-serif !important;
-  }
-
-  d-appendix {
-      color: rgb(0, 0, 0) !important;
-  }
-
-  li::marker {
-      font-weight: 700;
-      font-size: 1.125em;
-  }
-
-  </style>
   <!--/radix_placeholder_site_in_header-->
 
-  <link rel="stylesheet" href="mmstyle.css" type="text/css"/>
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Posts","authors":[]}
+{"title":"Maximum likelihood estimation - with implementation in R","description":"Exploring maximum likelihood estimation with an example of how it can be implemented in R.","authors":[{"author":"Rikard Wahlström","authorURL":"https://www.syntopicalreckoning.com/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-04-28T00:00:00.000+02:00","citationText":"Wahlström, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
 <!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a href="index.html" class="title">Syntopical Reckoning</a>
-<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
-</div>
-<div class="nav-right">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="https://github.com/riwahl">
-<i class="fa fa-github" aria-hidden="true"></i>
-</a>
-<a href="index.xml">
-<i class="fa fa-rss" aria-hidden="true"></i>
-</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-</div>
-</nav>
-</header>
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).load(function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash && window.location.hash.startsWith("#category:")) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace(/^#category:/, "");
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
-
-      // update the list_caption
-      var list_caption = $('.posts-list-caption');
-      var caption = (page_category || '').toLowerCase() === "articles"
-        ? list_caption.attr('data-caption')
-        : ('Category: ' + page_category.replace(/_/g," "));
-      list_caption.text(caption);
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-      // reset list caption
-      var list_caption = $('.posts-list-caption');
-      list_caption.text(list_caption.attr('data-caption'));
-
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // click handling for tags
-  $('.dt-tag').click(function(ev) {
-    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
-    return false;
-  })
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
-<div class="posts-list">
-<h1 class="posts-list-caption" data-caption="Posts">Posts</h1>
-<a href="posts/welcome/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["posts","category"]}</script>
-<div class="metadata">
-<div class="publishedDate">April 18, 2021</div>
-<div class="dt-authors">
-<div class="dt-author">Rikard Wahlström</div>
-</div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Welcome to Syntopical Reckoning</h2>
-<div class="dt-tags">
-<div class="dt-tag">posts</div>
-<div class="dt-tag">category</div>
-</div>
-<p>Reckoning -- syntopically!</p>
-</div>
-</a>
-</div>
-<div class="posts-sidebar">
-<div class="sidebar-section categories">
-<h3>Categories</h3>
-<ul>
-<li>
-<a href="#category:articles">articles</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#category:category">category</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#category:posts">posts</a>
-<span class="category-count">(1)</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>Posts</h1>
+<h1>Maximum likelihood estimation - with implementation in R</h1>
 <!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt=tag">posts</div>
+<div class="dt=tag">statistics</div>
+</div>
 <!--/radix_placeholder_categories-->
-
+<p><p>Exploring maximum likelihood estimation with an example of how it can be implemented in R.</p></p>
 </div>
 
+<div class="d-byline">
+  Rikard Wahlström <a href="https://www.syntopicalreckoning.com/" class="uri">https://www.syntopicalreckoning.com/</a> 
+  
+<br/>04-28-2021
+</div>
 
 <div class="d-article">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#wilks-test">Wilks’ test</a></li>
+<li><a href="#walds-test">Wald’s test</a></li>
+<li><a href="#score-test">Score test</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<h1 id="introduction">Introduction</h1>
+<p>Maximum likelihood estimation<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>In this post, I will showcase an analytical and numerical derivation of the maximum likelihood estimator for the exponential distribution. This will be done with a simple dataset</p>
+<p>The lifespan (denoted as <span class="math inline">\(t\)</span>) of 100 lamps has been measured. Each lamp has been used with an intensity (denoted as <span class="math inline">\(s\)</span>) from 0 to 1, where 0 is turned off and 1 is maximum capacity.</p>
+<p>It is known that lamps of the type relevant here has a lifespan <span class="math inline">\(t\)</span> that is exponentially distributed and where the expected value is</p>
+<p><span class="math display">\[\mu(s) = \frac{\beta}{s}, \quad s &gt; 0,\]</span></p>
+<p>where <span class="math inline">\(\beta &gt; 0\)</span> is an unknown parameter and <span class="math inline">\(s\)</span> equals the intensity with which the lamp has been used.</p>
+<p><strong>Formulate the log-likelihood for <span class="math inline">\(\beta\)</span> given the observations</strong></p>
+<p>We know that the lifespan of a lamp, <span class="math inline">\(t\)</span>, is exponentially distributed, that is:</p>
+<p><span class="math display">\[f(t) = \lambda e^{-\lambda t}.\]</span></p>
+<p>We know that the expected value of an exponentially distributed random variable (say <span class="math inline">\(t\)</span>) is given by <span class="math inline">\(E[t] = \frac{1}{\lambda}.\)</span></p>
+<p>We also know that, for the relevant sample, the expected value is given by the formula described in the introduction.</p>
+<p>We then have that <span class="math inline">\(\frac{1}{\lambda} = \frac{\beta}{s}.\)</span></p>
+<p>Solving for <span class="math inline">\(\lambda\)</span> we get that <span class="math inline">\(\lambda = \frac{s}{\beta}.\)</span></p>
+<p>Thus, substituting <span class="math inline">\(\lambda\)</span> with <span class="math inline">\(\frac{s}{\beta}\)</span>, the likelihood function for one observation is given by <span class="math inline">\(L(\beta) = \frac{s}{\beta}e^{-\frac{s}{\beta}t}.\)</span></p>
+<p>The likelihood function of the parameter <span class="math inline">\(\beta\)</span> given all observations is then given by:</p>
+<p><span class="math display">\[\begin{aligned}
+L_n(\beta) = \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i}.
+\end{aligned}\]</span></p>
+<p>And the log-likelihood:</p>
+<p><span class="math display">\[\begin{aligned}
+\ell_n(\beta) = 
+lnL_n(\beta) = 
+ln \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i} =
+\sum_{i = 1}^n ln \left[ \frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i} \right] = \\ 
+\sum_{i = 1}^n \left[ ln s_i - ln \beta - \frac{1}{\beta}s_it_i \right] = 
+\sum_{i = 1}^nln s_i - n ln \beta - \frac{1}{\beta}\sum_{i = 1}^n s_i t_i.
+\end{aligned}\]</span></p>
+<p><strong>Calculate the maximum likelihood estimate of <span class="math inline">\(\beta\)</span></strong></p>
+<p>To calculate the maximum likelihood estimate of <span class="math inline">\(\beta\)</span>, we first take the derivative of <span class="math inline">\(\ell_n(\beta)\)</span> w.r.t. to <span class="math inline">\(\beta\)</span>:</p>
+<p><span class="math display">\[\begin{aligned}
+\frac{d}{d\beta}\ell_n(\beta) = \ell_n&#39;(\beta) = 
+-\frac{n}{\beta} + \frac{1}{\beta^2}\sum_{i = 1}^n s_i t_i.
+\end{aligned}\]</span></p>
+<p>Equating the resulting expression with <span class="math inline">\(0\)</span> and solving for <span class="math inline">\(\beta\)</span>, we get:</p>
+<p><span class="math display">\[\begin{aligned}
+-\frac{n}{\beta} + \frac{1}{\beta^2}\sum_{i = 1}^n s_i t_i = 0 \rightarrow
+\frac{n}{\beta} = \frac{1}{\beta^2}\sum_{i = 1}^n s_i t_i \rightarrow
+\hat \beta = \frac{1}{n}\sum_{i = 1}^n s_i t_i,
+\end{aligned}\]</span></p>
+<p>which is then the maximum likelihood estimate of <span class="math inline">\(\beta\)</span>.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>The maximum likelihood estimate is therefore <span class="math inline">\(\hat \beta =\)</span> 121.425513.</p>
+<p>We can double-check the calculation by calculating it both “by hand” using R and defining a function for finding the maximum likelihood estimate, as follows.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Initial calculations</span>
+
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>lamp_data</span><span class='op'>$</span><span class='va'>tid</span><span class='op'>)</span>
+
+<span class='va'>beta_hat</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='va'>n</span><span class='op'>)</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>lamp_data</span><span class='op'>$</span><span class='va'>styrka</span><span class='op'>*</span><span class='va'>lamp_data</span><span class='op'>$</span><span class='va'>tid</span><span class='op'>)</span>
+
+<span class='co'># Formulate the log-likelihood function</span>
+
+<span class='va'>log_ln</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>beta</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>lamp_data</span><span class='op'>$</span><span class='va'>tid</span><span class='op'>)</span>
+  <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>lamp_data</span><span class='op'>$</span><span class='va'>styrka</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> 
+    <span class='op'>(</span><span class='op'>(</span><span class='va'>n</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>beta</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span>
+    <span class='op'>(</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='va'>beta</span><span class='op'>)</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>lamp_data</span><span class='op'>$</span><span class='va'>tid</span><span class='op'>*</span><span class='va'>lamp_data</span><span class='op'>$</span><span class='va'>styrka</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># Calculating the maximum likelihood estimate</span>
+
+<span class='va'>optim_result</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/optim.html'>optim</a></span><span class='op'>(</span><span class='fl'>1.0</span>,
+                      <span class='va'>log_ln</span>,
+                      method <span class='op'>=</span> <span class='st'>"Brent"</span>,
+                      lower <span class='op'>=</span> <span class='fl'>0.001</span>,
+                      upper <span class='op'>=</span> <span class='fl'>50000</span>,
+                      control <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>fnscale <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1.0</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>optim_result</span><span class='op'>$</span><span class='va'>par</span>
+</code></pre>
+</div>
+<pre><code>[1] 121.4255</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>beta_hat</span>
+</code></pre>
+</div>
+<pre><code>[1] 121.4255</code></pre>
+</div>
+<p>From the above, we see that the result is the same.</p>
+<p><strong>Plot the regression line together with the observations to ensure that the estimate is reasonable</strong></p>
+<p>Below is a plot of the observations, together with regression line (calculated from the expected value of <span class="math inline">\(t\)</span>, i.e. <span class="math inline">\(E[t] = \frac{\hat \beta}{s_i}\)</span>, for each observation):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span id="fig:unnamed-chunk-5"></span>
+<img src="maximum-likelihood-estimation-with-implementation-in-r_files/figure-html5/unnamed-chunk-5-1.png" alt="Time against intensity" width="624" />
+<p class="caption">
+Figure 1: Time against intensity
+</p>
+</div>
+</div>
+<p>From this, we can see that the ML estimate of <span class="math inline">\(\beta\)</span> seems reasonable.</p>
+<p><strong>Test if <span class="math inline">\(\beta = 100\)</span> against <span class="math inline">\(\beta \neq 100\)</span>. Do it with Wilks, Wald and score tests</strong></p>
+<h3 id="wilks-test">Wilks’ test</h3>
+<p>Wilks’ theorem is</p>
+<p><span class="math display">\[
+\lambda_{LR} = 2( l_n(\hat\beta)-l_n(\beta_o))\overset{asym.}{\sim} \chi_1^2.
+\]</span> Which we then calculate as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Calculate the statistic</span>
+
+<span class='va'>beta_null</span> <span class='op'>&lt;-</span> <span class='fl'>100</span>
+
+<span class='va'>wilks_statistic</span> <span class='op'>&lt;-</span> <span class='fl'>2</span><span class='op'>*</span><span class='op'>(</span><span class='fu'>log_ln</span><span class='op'>(</span><span class='va'>optim_result</span><span class='op'>$</span><span class='va'>par</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'>log_ln</span><span class='op'>(</span><span class='va'>beta_null</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>wilks_statistic</span>
+</code></pre>
+</div>
+<pre><code>[1] 4.024861</code></pre>
+</div>
+<p>Which we then compare with the <span class="math inline">\(\chi_1^2\)</span> and calculate the p-value as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Find the p-value</span>
+
+<span class='va'>wilks_p</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Chisquare.html'>pchisq</a></span><span class='op'>(</span><span class='va'>wilks_statistic</span>, <span class='fl'>1</span><span class='op'>)</span>
+
+<span class='va'>wilks_p</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.04483432</code></pre>
+</div>
+<p>We see that the p-value is small, and that we can reject <span class="math inline">\(H_0:\)</span> <span class="math inline">\(\beta = 100\)</span> in favour of the alternative <span class="math inline">\(H_1:\)</span> <span class="math inline">\(\beta \neq 100\)</span> at the 5 percent significance level.</p>
+<h3 id="walds-test">Wald’s test</h3>
+<p>For Wald’s test, we have the test statistic</p>
+<p><span class="math display">\[
+\frac{\hat\beta- \beta_0}{\textrm{Sd}(\hat\beta)} \overset{asym.}{\sim} \mathsf{N}(0,1),
+\]</span></p>
+<p>where the standard deviation can be calculated as</p>
+<p><span class="math display">\[
+Sd(\hat\beta) = (n\hat I(\hat\beta))^{-1/2} = \frac{1}{\sqrt{n\hat I(\hat\beta)}}.
+\]</span></p>
+<p>We therefore have to find the Fisher information <span class="math inline">\(I(\beta) = -E[\ell&#39;&#39;(\beta)]\)</span>.</p>
+<p>Previously, we calculated</p>
+<p><span class="math display">\[\begin{aligned}
+\ell&#39;(\beta) = 
+\frac{1}{\beta^2}st - \frac{1}{\beta}.
+\end{aligned}\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[\begin{aligned}
+\ell&#39;&#39;(\beta) = 
+\frac{1}{\beta^2} - \frac{2}{\beta^3}st.
+\end{aligned}\]</span></p>
+<p>Thus,</p>
+<p><span class="math display">\[\begin{aligned}
+I(\beta) = -E[\ell&#39;&#39;(\beta)] = -E[\frac{1}{\beta^2} - \frac{2}{\beta^3}st] = \\ -\frac{1}{\beta^2} + \frac{2}{\beta^3}sE[t] = 
+-\frac{1}{\beta^2} + \frac{2}{\beta^3}s\frac{\beta}{s} = \\
+-\frac{1}{\beta^2} + \frac{2\beta}{\beta^3} = 
+-\frac{1}{\beta^2} + \frac{2}{\beta^2} = 
+\frac{2-1}{\beta^2} = 
+\frac{1}{\beta^2}.  
+\end{aligned}\]</span></p>
+<p>We then have that:</p>
+<p><span class="math display">\[\begin{aligned}
+nI(\beta) = n\frac{1}{\beta^2} = \frac{n}{\beta^2},
+\end{aligned}\]</span></p>
+<p>and thus:</p>
+<p><span class="math display">\[
+Sd(\hat\beta) = \frac{1}{\sqrt{\frac{n}{\hat\beta^2}}} = \frac{\sqrt{\hat\beta^2}}{\sqrt{n}} = \frac{\hat\beta}{\sqrt{n}}.
+\]</span></p>
+<p>Using all of the, above, we can calculate the test statistic:</p>
+<p><span class="math display">\[
+\frac{\hat\beta- \beta_0}{\textrm{Sd}(\hat\beta)} = \frac{121.4255 - 100}{\frac{121.4255}{\sqrt{100}}} = 1.764498.
+\]</span></p>
+<p>We can calculate the p-value given the test statistic directly in R:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fl'>2</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>pnorm</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fl'>1.764498</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.07764817</code></pre>
+</div>
+<p>With the conclusion that, at the 5 percent significance level, we do not reject <span class="math inline">\(H_0\)</span>.</p>
+<p>Implementing the whole process above in R, we arrive at a similar conclusion:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Calculate the Fisher information</span>
+
+<span class='va'>observedFisherInfo</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>beta</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/drop.html'>drop</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'>pracma</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pracma/man/hessian.html'>hessian</a></span><span class='op'>(</span><span class='va'>log_ln</span>,<span class='va'>beta</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='fu'>observedFisherInfo</span><span class='op'>(</span><span class='va'>beta_hat</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.006774902</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Calculate the test statistic</span>
+
+<span class='va'>zWald</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>beta_null</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>beta_hat</span> <span class='op'>-</span> <span class='va'>beta_null</span><span class='op'>)</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'>observedFisherInfo</span><span class='op'>(</span><span class='va'>beta_hat</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># Find the p-value </span>
+
+<span class='fl'>2</span> <span class='op'>*</span> <span class='op'>(</span> <span class='fl'>1</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>pnorm</a></span><span class='op'>(</span> <span class='fu'>zWald</span><span class='op'>(</span><span class='va'>beta_null</span><span class='op'>)</span> <span class='op'>)</span> <span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.07781121</code></pre>
+</div>
+<p>We see that the p-value is close to that calculated “by hand” above (differences due to rounding) and that it is larger than <span class="math inline">\(\alpha = 0.05\)</span>, and thus, for the Wald test, we do not reject <span class="math inline">\(H_0\)</span>.</p>
+<h3 id="score-test">Score test</h3>
+<p>For the Score test, we have the test statistic:</p>
+<p><span class="math display">\[
+\frac{l_n&#39;(\theta_0)}{\sqrt{I_n(\theta_0)}} \overset{asym.}{\sim} \mathsf N(0,1).
+\]</span></p>
+<p>We can calculate this, and the corresponding p-value, in a way similar to what was done for Wald’s test:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Calculate the test statistic</span>
+
+<span class='va'>zScore</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>beta_null</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'>pracma</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pracma/man/grad.html'>grad</a></span><span class='op'>(</span><span class='va'>log_ln</span>,<span class='va'>beta_null</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'>observedFisherInfo</span><span class='op'>(</span><span class='va'>beta_null</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># Find the p-value</span>
+
+<span class='fl'>2</span> <span class='op'>*</span> <span class='op'>(</span> <span class='fl'>1</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>pnorm</a></span><span class='op'>(</span><span class='fu'>zScore</span><span class='op'>(</span><span class='va'>beta_null</span><span class='op'>)</span> <span class='op'>)</span> <span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.07292737</code></pre>
+</div>
+<p>Which, as for Wald’s test, leads us to not reject <span class="math inline">\(H_0\)</span>.</p>
+<p><strong>Calculate a confidence interval for <span class="math inline">\(\beta\)</span> based on the Wald statistic</strong></p>
+<p>As we saw above, Wald’s test is based on the fact that for large <span class="math inline">\(n\)</span>:</p>
+<p><span class="math display">\[
+\frac{\hat\beta- \beta_0}{\textrm{Sd}(\hat\beta)} \overset{asym.}{\sim} \mathsf{N}(0,1).
+\]</span> We can then calculate a <span class="math inline">\(1-\alpha\)</span> percent confidence interval as follows:</p>
+<p><span class="math display">\[
+1-\alpha = 
+P\left( -z_{\alpha/2} \leq \frac{\hat \beta - \beta}{Sd(\hat \beta)} \leq z_{\alpha/2}  \right) = 
+P\left( \hat \beta - Sd(\hat \beta) z_{\alpha_2} \leq \beta \leq \hat \beta + Sd(\hat \beta)z_{\alpha/2} \right)
+\]</span> We can implement this in R as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>alpha</span> <span class='op'>&lt;-</span> <span class='fl'>0.05</span>
+
+<span class='va'>leftCILimit</span> <span class='op'>&lt;-</span> <span class='va'>beta_hat</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>-</span><span class='va'>alpha</span><span class='op'>/</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'>observedFisherInfo</span><span class='op'>(</span><span class='va'>beta_hat</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>rightCILimit</span> <span class='op'>&lt;-</span> <span class='va'>beta_hat</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>-</span><span class='va'>alpha</span><span class='op'>/</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'>observedFisherInfo</span><span class='op'>(</span><span class='va'>beta_hat</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>leftCILimit</span>
+</code></pre>
+</div>
+<pre><code>[1] 97.61347</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>rightCILimit</span>
+</code></pre>
+</div>
+<pre><code>[1] 145.2376</code></pre>
+</div>
+<p>Thus, we have that [97.6134748, 145.2375513] is a <span class="math inline">\(1-\alpha = 0.95\)</span> percent confidence interval for <span class="math inline">\(\beta\)</span>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>See source: [<em>source</em>]<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2349,14 +1764,20 @@ function init_posts_list() {
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom">
-<h3 id="updates-and-corrections">Corrections</h3>
-<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/riwahl/syntopical-reckoning-distill/issues/new">create an issue</a> on the source repository.</p>
-</div>
+<div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->

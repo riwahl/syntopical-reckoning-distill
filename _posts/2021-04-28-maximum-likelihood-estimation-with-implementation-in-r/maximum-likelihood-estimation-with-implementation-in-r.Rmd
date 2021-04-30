@@ -1,0 +1,392 @@
+---
+title: "Maximum likelihood estimation - with implementation in R"
+description: |
+  Exploring maximum likelihood estimation with an example of how it can be implemented in R.
+author:
+  - name: Rikard Wahlström
+    url: https://www.syntopicalreckoning.com/
+date: 04-28-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 4
+draft: TRUE
+categories:
+  - posts
+  - statistics
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+theme_set(theme_minimal())
+
+```
+
+# Introduction
+
+Maximum likelihood estimation[^1]
+
+[^1]: See source: [*source*]
+
+In this post, I will showcase an analytical and numerical derivation of the maximum likelihood estimator for the exponential distribution. This will be done with a simple dataset 
+
+# 
+
+```{r, include = FALSE}
+
+# Set the WD and read the data
+
+setwd("C:/Users/Rikard/OneDrive/Statistik 2020-2021/Statistik C/Statistisk inferens och maskininlärning/HWAs/HWA1")
+
+lamp_data <- read_csv("lampor.csv") %>% 
+  select(-X1)
+
+```
+
+
+The lifespan (denoted as $t$) of 100 lamps has been measured. Each lamp has been used with an intensity (denoted as $s$) from 0 to 1, where 0 is turned off and 1 is maximum capacity. 
+
+It is known that lamps of the type relevant here has a lifespan $t$ that is exponentially distributed and where the expected value is 
+
+$$\mu(s) = \frac{\beta}{s}, \quad s > 0,$$
+
+where $\beta > 0$ is an unknown parameter and $s$ equals the intensity with which the lamp has been used. 
+
+
+**Formulate the log-likelihood for $\beta$ given the observations**
+
+We know that the lifespan of a lamp, $t$, is exponentially distributed, that is:
+
+$$f(t) = \lambda e^{-\lambda t}.$$
+
+We know that the expected value of an exponentially distributed random variable (say $t$) is given by $E[t] = \frac{1}{\lambda}.$
+
+We also know that, for the relevant sample, the expected value is given by the formula described in the introduction.
+
+We then have that $\frac{1}{\lambda} = \frac{\beta}{s}.$
+
+Solving for $\lambda$ we get that $\lambda = \frac{s}{\beta}.$
+
+Thus, substituting $\lambda$ with $\frac{s}{\beta}$, the likelihood function for one observation is given by $L(\beta) = \frac{s}{\beta}e^{-\frac{s}{\beta}t}.$
+
+The likelihood function of the parameter $\beta$ given all observations is then given by:
+
+$$\begin{aligned}
+L_n(\beta) = \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i}.
+\end{aligned}$$
+
+
+And the log-likelihood:
+
+$$\begin{aligned}
+\ell_n(\beta) = 
+lnL_n(\beta) = 
+ln \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i} =
+\sum_{i = 1}^n ln \left[ \frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i} \right] = \\ 
+\sum_{i = 1}^n \left[ ln s_i - ln \beta - \frac{1}{\beta}s_it_i \right] = 
+\sum_{i = 1}^nln s_i - n ln \beta - \frac{1}{\beta}\sum_{i = 1}^n s_i t_i.
+\end{aligned}$$
+
+
+**Calculate the maximum likelihood estimate of $\beta$**
+
+To calculate the maximum likelihood estimate of $\beta$, we first take the derivative of $\ell_n(\beta)$ w.r.t. to $\beta$:
+
+$$\begin{aligned}
+\frac{d}{d\beta}\ell_n(\beta) = \ell_n'(\beta) = 
+-\frac{n}{\beta} + \frac{1}{\beta^2}\sum_{i = 1}^n s_i t_i.
+\end{aligned}$$
+
+Equating the resulting expression with $0$ and solving for $\beta$, we get:
+
+$$\begin{aligned}
+-\frac{n}{\beta} + \frac{1}{\beta^2}\sum_{i = 1}^n s_i t_i = 0 \rightarrow
+\frac{n}{\beta} = \frac{1}{\beta^2}\sum_{i = 1}^n s_i t_i \rightarrow
+\hat \beta = \frac{1}{n}\sum_{i = 1}^n s_i t_i,
+\end{aligned}$$
+
+which is then the maximum likelihood estimate of $\beta$.
+
+```{r}
+
+t <- lamp_data %>% pull(tid)
+s <- lamp_data %>% pull(styrka)
+n <- length(lamp_data$tid)
+
+```
+
+The maximum likelihood estimate is therefore $\hat \beta =$ `r sum(s*t)/n`.
+
+We can double-check the calculation by calculating it both "by hand" using R and defining a function for finding the maximum likelihood estimate, as follows. 
+
+```{r, echo = TRUE}
+
+# Initial calculations
+
+n <- length(lamp_data$tid)
+
+beta_hat <- (1/n)*sum(lamp_data$styrka*lamp_data$tid)
+
+# Formulate the log-likelihood function
+
+log_ln <- function(beta){
+  n <- length(lamp_data$tid)
+  (sum(log(lamp_data$styrka))) - 
+    ((n*log(beta))) -
+    ((1/beta)*sum(lamp_data$tid*lamp_data$styrka))
+}
+
+# Calculating the maximum likelihood estimate
+
+optim_result <- optim(1.0,
+                      log_ln,
+                      method = "Brent",
+                      lower = 0.001,
+                      upper = 50000,
+                      control = list(fnscale = -1.0))
+
+optim_result$par
+
+beta_hat
+
+
+
+```
+
+
+From the above, we see that the result is the same. 
+
+
+
+**Plot the regression line together with the observations to ensure that the estimate is reasonable**
+
+Below is a plot of the observations, together with regression line (calculated from the expected value of $t$, i.e. $E[t] = \frac{\hat \beta}{s_i}$, for each observation): 
+
+
+```{r, include = FALSE}
+
+lamp_data <- lamp_data %>% 
+              mutate(t_expected = beta_hat/styrka)
+
+
+```
+
+```{r, warning = FALSE, fig.cap = "Time against intensity"}
+
+ggplot(lamp_data,aes(styrka, tid)) +
+  geom_point() +
+  geom_line(aes(y=t_expected)) +
+  labs(x = "Intensity",
+       y = "Time")
+
+```
+
+
+
+
+
+From this, we can see that the ML estimate of $\beta$ seems reasonable. 
+
+
+
+
+**Test if $\beta = 100$ against $\beta \neq 100$. Do it with Wilks, Wald and score tests**
+
+### Wilks' test
+
+Wilks' theorem is
+
+$$
+\lambda_{LR} = 2( l_n(\hat\beta)-l_n(\beta_o))\overset{asym.}{\sim} \chi_1^2.
+$$
+Which we then calculate as follows:
+
+```{r, echo = TRUE}
+
+# Calculate the statistic
+
+beta_null <- 100
+
+wilks_statistic <- 2*(log_ln(optim_result$par) - log_ln(beta_null))
+
+wilks_statistic
+
+```
+
+
+Which we then compare with the $\chi_1^2$ and calculate the p-value as follows:
+
+```{r, echo = TRUE}
+
+# Find the p-value
+
+wilks_p <- 1 - pchisq(wilks_statistic, 1)
+
+wilks_p
+
+```
+
+We see that the p-value is small, and that we can  reject $H_0:$ $\beta = 100$ in favour of the alternative $H_1:$ $\beta \neq 100$ at the 5 percent significance level. 
+
+
+
+
+### Wald's test
+
+For Wald's test, we have the test statistic 
+
+$$
+\frac{\hat\beta- \beta_0}{\textrm{Sd}(\hat\beta)} \overset{asym.}{\sim} \mathsf{N}(0,1),
+$$
+
+where the standard deviation can be calculated as
+
+
+$$
+Sd(\hat\beta) = (n\hat I(\hat\beta))^{-1/2} = \frac{1}{\sqrt{n\hat I(\hat\beta)}}.
+$$
+
+
+We therefore have to find the Fisher information $I(\beta) = -E[\ell''(\beta)]$.
+
+Previously, we calculated
+
+$$\begin{aligned}
+\ell'(\beta) = 
+\frac{1}{\beta^2}st - \frac{1}{\beta}.
+\end{aligned}$$
+
+Therefore, 
+
+$$\begin{aligned}
+\ell''(\beta) = 
+\frac{1}{\beta^2} - \frac{2}{\beta^3}st.
+\end{aligned}$$
+
+Thus,
+
+$$\begin{aligned}
+I(\beta) = -E[\ell''(\beta)] = -E[\frac{1}{\beta^2} - \frac{2}{\beta^3}st] = \\ -\frac{1}{\beta^2} + \frac{2}{\beta^3}sE[t] = 
+-\frac{1}{\beta^2} + \frac{2}{\beta^3}s\frac{\beta}{s} = \\
+-\frac{1}{\beta^2} + \frac{2\beta}{\beta^3} = 
+-\frac{1}{\beta^2} + \frac{2}{\beta^2} = 
+\frac{2-1}{\beta^2} = 
+\frac{1}{\beta^2}.  
+\end{aligned}$$
+
+We then have that:
+
+$$\begin{aligned}
+nI(\beta) = n\frac{1}{\beta^2} = \frac{n}{\beta^2},
+\end{aligned}$$
+
+and thus:
+
+$$
+Sd(\hat\beta) = \frac{1}{\sqrt{\frac{n}{\hat\beta^2}}} = \frac{\sqrt{\hat\beta^2}}{\sqrt{n}} = \frac{\hat\beta}{\sqrt{n}}.
+$$
+
+Using all of the, above, we can calculate the test statistic:
+
+$$
+\frac{\hat\beta- \beta_0}{\textrm{Sd}(\hat\beta)} = \frac{121.4255 - 100}{\frac{121.4255}{\sqrt{100}}} = 1.764498.
+$$
+
+We can calculate the p-value given the test statistic directly in R:
+
+```{r, echo = TRUE}
+
+2*pnorm(-abs(1.764498))
+
+```
+
+With the conclusion that, at the 5 percent significance level, we do not reject $H_0$. 
+
+Implementing the whole process above in R, we arrive at a similar conclusion: 
+
+```{r, echo = TRUE}
+
+# Calculate the Fisher information
+
+observedFisherInfo <- function(beta){
+  drop(-pracma::hessian(log_ln,beta))
+}
+
+observedFisherInfo(beta_hat)
+
+# Calculate the test statistic
+
+zWald <- function(beta_null){
+  abs(beta_hat - beta_null)*sqrt(observedFisherInfo(beta_hat))
+}
+
+# Find the p-value 
+
+2 * ( 1 - pnorm( zWald(beta_null) ) )
+
+```
+
+We see that the p-value is close to that calculated "by hand" above (differences due to rounding) and that it is larger than $\alpha = 0.05$, and thus, for the Wald test, we do not reject $H_0$. 
+
+
+### Score test
+
+For the Score test, we have the test statistic:
+
+$$
+\frac{l_n'(\theta_0)}{\sqrt{I_n(\theta_0)}} \overset{asym.}{\sim} \mathsf N(0,1).
+$$
+
+We can calculate this, and the corresponding p-value, in a way similar to what was done for Wald's test:
+
+```{r, echo = TRUE}
+
+# Calculate the test statistic
+
+zScore <- function(beta_null){
+  abs(pracma::grad(log_ln,beta_null)/sqrt(observedFisherInfo(beta_null)))
+}
+
+# Find the p-value
+
+2 * ( 1 - pnorm(zScore(beta_null) ) )
+```
+
+Which, as for Wald's test, leads us to not reject $H_0$. 
+
+**Calculate a confidence interval for $\beta$ based on the Wald statistic**
+
+As we saw above, Wald's test is based on the fact that for large $n$:
+
+$$
+\frac{\hat\beta- \beta_0}{\textrm{Sd}(\hat\beta)} \overset{asym.}{\sim} \mathsf{N}(0,1).
+$$
+We can then calculate a $1-\alpha$ percent confidence interval as follows: 
+
+$$
+1-\alpha = 
+P\left( -z_{\alpha/2} \leq \frac{\hat \beta - \beta}{Sd(\hat \beta)} \leq z_{\alpha/2}  \right) = 
+P\left( \hat \beta - Sd(\hat \beta) z_{\alpha_2} \leq \beta \leq \hat \beta + Sd(\hat \beta)z_{\alpha/2} \right)
+$$
+We can implement this in R as follows:
+
+```{r, echo = TRUE}
+alpha <- 0.05
+
+leftCILimit <- beta_hat - qnorm(1-alpha/2) / sqrt(observedFisherInfo(beta_hat))
+
+rightCILimit <- beta_hat + qnorm(1-alpha/2) / sqrt(observedFisherInfo(beta_hat))
+
+leftCILimit
+
+rightCILimit
+```
+
+
+Thus, we have that [`r leftCILimit`, `r rightCILimit`] is a $1-\alpha = 0.95$ percent confidence interval for $\beta$.
+
+
