@@ -7,6 +7,6 @@ title: "About Syntopical Reckoning"
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Hi! I'm Rikard Wahlström, and welcome to my site, dedicated to statistics and all things R. 
+Hello! I'm Rikard Wahlström and welcome to my site, dedicated to statistics and all things `R`. 
 
 More information to come! 
