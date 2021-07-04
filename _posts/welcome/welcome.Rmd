@@ -23,6 +23,10 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Introduction
 
-Welcome to my site! On it, I will explore all things statistics and R. 
+Welcome to my site. This site is dedicated to... 
+
+Test
+
+Test
 
 
