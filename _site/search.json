@@ -5,14 +5,14 @@
       "title": "About Syntopical Reckoning",
       "author": [],
       "contents": "\r\nHi! I’m Rikard Wahlström, and welcome to my site, dedicated to statistics and all things R.\r\nMore information to come!\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-04-30T18:19:30+02:00"
+      "last_modified": "2021-07-04T13:17:14+02:00"
     },
     {
       "path": "index.html",
       "title": "Posts",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-04-30T18:19:32+02:00"
+      "last_modified": "2021-07-04T13:17:15+02:00"
     }
   ],
   "collections": ["posts/posts.json"]

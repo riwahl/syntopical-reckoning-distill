@@ -2,7 +2,7 @@
   {
     "path": "posts/welcome/",
     "title": "Welcome to Syntopical Reckoning",
-    "description": "Reckoning -- syntopically!",
+    "description": {},
     "author": [
       {
         "name": "Rikard Wahlström",
@@ -11,12 +11,11 @@
     ],
     "date": "2021-04-18",
     "categories": [
-      "posts",
-      "category"
+      "posts"
     ],
-    "contents": "\r\nThis is a test post.\r\nIs this showing?\r\n\r\n\r\nx <- c(1, 2, 3, 4)\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "contents": "\r\n\r\nContents\r\nIntroduction\r\n\r\nIntroduction\r\nWelcome to my site. This site is dedicated to…\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-04-28T17:29:32+02:00",
-    "input_file": {}
+    "last_modified": "2021-07-04T13:17:34+02:00",
+    "input_file": "welcome.knit.md"
   }
 ]
