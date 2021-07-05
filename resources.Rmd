@@ -1,0 +1,13 @@
+---
+title: "Resources"
+description: |
+  A collection of useful stuff
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Links
+
+*some useful links*

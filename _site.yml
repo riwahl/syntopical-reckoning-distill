@@ -10,11 +10,13 @@ navbar:
   right:
     - text: "Home"
       href: index.html
+    - text: "Resources"
+      href: resources.html
     - text: "About"
       href: about.html
     - icon: fa fa-github
       href: https://github.com/riwahl
-    - icon: fa fa-rss # Hidden until you can figure out how to set up RSS feed
+    - icon: fa fa-rss 
       href: index.xml
 output:
   distill::distill_article:
