@@ -1,0 +1,217 @@
+---
+title: "Maximum likelihood estimation - an application in R"
+description: |
+  Taking a gander at the workhorse of statistics and how it can be applied in R.
+author:
+  - name: Rikard Wahlström
+date: 07-11-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 4
+draft: TRUE
+categories:
+  - posts
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = FALSE}
+setwd("C:/Users/Rikard/OneDrive/R/syntopical-reckoning-distill/syntopical-reckoning-distill/_posts/2021-07-10-maximum-likelihood-estimation-an-application-in-r")
+
+library(tidyverse)
+theme_set(theme_minimal())
+
+lamp_data <- read_csv("lampor.csv") %>% 
+  select(-X1) %>% 
+  rename(time = tid,
+         intensity = styrka)
+
+```
+
+# Introduction
+
+Maximum likelihood estimation (MLE) is the workhorse of statistics when it comes to parameter estimation. 
+
+In this post, I will showcase how MLE can be employed in parameter estimation. Using a simple case, this post will showcase both the analytical and the numerical derivation of the maximum likelihood estimates.
+
+# Setting the stage
+
+## The data
+
+Imagine that the lifespan (denoted as $t$) of 100 lamps has been measured. Each lamp has been used with a constant intensity (denoted as $s$) ranging from 0 to 1, where a value of $0$ implies that the lamp is turned off and a value of $1$ implies that the lamp is burning at its highest intensity.
+
+Let's have a glimpse at the data we are working with. 
+
+```{r}
+
+library(tidyverse)
+theme_set(theme_light())
+
+glimpse(lamp_data)
+```
+
+As stated previously, our sample contains 100 observations (lamps), each of which has been used with a different intensity (ranging from $0.01$ to $1.00$).
+
+## Parametric estimation
+
+Maximum likelihood estimation sorts under the umbrella of parametric statistics. This, in simple terms, implies that an assumption regarding the underlying probability distribution of the data has to be made. It is then the unknown parameter or parameters of that assumed probability distribution that is estimated using maximum likelihood-based methods. 
+
+For the present lamp study, let us assume that it is known that lamps of the type relevant here has a lifespan $t$ that is exponentially distributed, that is
+
+$$f(t) = \lambda e^{-\lambda t},$$ 
+
+and where the expected value is 
+
+$$\mu(s) = \frac{\beta}{s}, \quad s > 0,$$
+
+where $\beta > 0$ is an unknown parameter and $s$ equals the intensity with which the lamp has been used. Our focus of interest is to estimate the unknown parameter $\beta$. 
+
+## Analytical MLE
+
+We know that the expected value of an exponentially distributed random variable (say $t$) is given by:
+
+$E[t] = \frac{1}{\lambda}.$
+
+We also know that, for the relevant sample, the expected value is given by the formula described in the introduction.
+
+We then have that $\frac{1}{\lambda} = \frac{\beta}{s}.$
+
+Solving for $\lambda$ we get that $\lambda = \frac{s}{\beta}.$
+
+Thus, substituting $\lambda$ with $\frac{s}{\beta}$, the likelihood function for one observation is given by $L(\beta) = \frac{s}{\beta}e^{-\frac{s}{\beta}t}.$
+
+The likelihood function of the parameter $\beta$ given all observations is then given by:
+
+$$\begin{aligned}
+L_n(\beta) = \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i}.
+\end{aligned}$$
+
+
+And the log-likelihood:
+
+$$\begin{aligned}
+\ell_n(\beta) = 
+lnL_n(\beta) = 
+ln \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i} =
+\sum_{i = 1}^n ln \left[ \frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i} \right] = \\ 
+\sum_{i = 1}^n \left[ ln s_i - ln \beta - \frac{1}{\beta}s_it_i \right] = 
+\sum_{i = 1}^nln s_i - n ln \beta - \frac{1}{\beta}\sum_{i = 1}^n s_i t_i.
+\end{aligned}$$
+
+To calculate the maximum likelihood estimate of $\beta$, we first take the derivative of $\ell_n(\beta)$ w.r.t. to $\beta$:
+
+$$\begin{aligned}
+\frac{d}{d\beta}\ell_n(\beta) = \ell_n'(\beta) = 
+-\frac{n}{\beta} + \frac{1}{\beta^2}\sum_{i = 1}^n s_i t_i.
+\end{aligned}$$
+
+Equating the resulting expression with $0$ and solving for $\beta$, we get:
+
+$$\begin{aligned}
+-\frac{n}{\beta} + \frac{1}{\beta^2}\sum_{i = 1}^n s_i t_i = 0 \rightarrow
+\frac{n}{\beta} = \frac{1}{\beta^2}\sum_{i = 1}^n s_i t_i \rightarrow
+\hat \beta = \frac{1}{n}\sum_{i = 1}^n s_i t_i,
+\end{aligned}$$
+
+which is then the maximum likelihood estimate of $\beta$.
+
+## Numerical MLE 
+
+Above, we saw how to analytically calculate the maximum likelihood estimate of $\beta$ by first defining the likelihood function, followed by the log-likelihood function and then taking the first derivative and solving for the parameter of interest. 
+
+Let's implement this in `R` to get the numerical estimate. 
+
+```{r}
+
+# Extract the time column
+
+t <- lamp_data %>% pull(time)
+
+# Extract the intensity column
+
+s <- lamp_data %>% pull(intensity)
+
+# Get the number of observations
+
+n <- length(lamp_data$time)
+
+# Calculate the estimate of beta
+
+(beta_hat <- round(sum(s*t)/n, 2))
+              
+                  
+
+```
+
+The maximum likelihood estimate is therefore $\hat \beta =$ `r beta_hat`.
+
+Let's implement the "entire process" of the above in `R` (and not just the calculation of the estimate).
+
+```{r, echo = TRUE}
+
+# Initial calculations
+
+n <- length(lamp_data$time)
+
+beta_hat <- (1/n)*sum(lamp_data$intensity*lamp_data$time)
+
+# Formulate the log-likelihood function
+
+log_ln <- function(beta){
+  n <- length(lamp_data$time)
+  (sum(log(lamp_data$intensity))) - 
+    ((n*log(beta))) -
+    ((1/beta)*sum(lamp_data$time*lamp_data$intensity))
+}
+
+# Calculating the maximum likelihood estimate
+
+optim_result <- optim(1.0,
+                      log_ln,
+                      method = "Brent",
+                      lower = 0.001,
+                      upper = 50000,
+                      control = list(fnscale = -1.0))
+
+round(optim_result$par, 2)
+
+round(beta_hat, 2)
+
+
+
+```
+
+
+From the above, we see that the result is the same. 
+
+## Investigating the data
+
+Below is a plot of the observations, together with regression line (calculated from the expected value of $t$, i.e. $E[t] = \frac{\hat \beta}{s_i}$, for each observation): 
+
+
+```{r, include = FALSE}
+
+lamp_data <- lamp_data %>% 
+              mutate(t_expected = beta_hat/intensity)
+```
+
+```{r, warning = FALSE}
+
+ggplot(lamp_data,aes(intensity, time)) +
+  geom_point() +
+  geom_line(aes(y=t_expected)) +
+  labs(x = "Intensity",
+       y = "Time",
+       title = "Regression plot Time ~ Intensity")
+
+```
+
+From this, we can see that the ML estimate of $\beta$ seems reasonable. 
+
+# Conclusion
+
