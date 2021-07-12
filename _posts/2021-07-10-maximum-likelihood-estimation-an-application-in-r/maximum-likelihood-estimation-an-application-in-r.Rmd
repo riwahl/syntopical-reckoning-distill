@@ -10,7 +10,7 @@ output:
     self_contained: false
     toc: true
     toc_depth: 4
-draft: TRUE
+draft: true
 categories:
   - posts
 ---
