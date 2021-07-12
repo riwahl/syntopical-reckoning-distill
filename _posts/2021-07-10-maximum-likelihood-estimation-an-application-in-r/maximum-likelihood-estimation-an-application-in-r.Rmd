@@ -10,9 +10,11 @@ output:
     self_contained: false
     toc: true
     toc_depth: 4
-draft: true
+draft: false
 categories:
   - posts
+  - R
+  - statistics
 ---
 
 
@@ -35,15 +37,15 @@ lamp_data <- read_csv("lampor.csv") %>%
 
 # Introduction
 
-Maximum likelihood estimation (MLE) is the workhorse of statistics when it comes to parameter estimation. 
+Maximum likelihood estimation (MLE) is the workhorse of parametric statistics. It is the most common method for estimating unknown parameters of a probability distribution. 
 
-In this post, I will showcase how MLE can be employed in parameter estimation. Using a simple case, this post will showcase both the analytical and the numerical derivation of the maximum likelihood estimates.
+In this post, I will showcase how MLE can be employed in parameter estimation. Using a simple case, I will show both how maximum likelihood estimation can be performed analytically ("by hand") as well as numerically, with an implementation in `R`.
 
 # Setting the stage
 
 ## The data
 
-Imagine that the lifespan (denoted as $t$) of 100 lamps has been measured. Each lamp has been used with a constant intensity (denoted as $s$) ranging from 0 to 1, where a value of $0$ implies that the lamp is turned off and a value of $1$ implies that the lamp is burning at its highest intensity.
+Imagine that the lifespan (in minutes, denoted as $t$) of 100 lamps has been measured. Each lamp has been used with a constant intensity (denoted as $s$) ranging from 0 to 1, where a value of $0$ implies that the lamp is turned off and a value of $1$ implies that the lamp is burning at its highest intensity.
 
 Let's have a glimpse at the data we are working with. 
 
@@ -59,9 +61,9 @@ As stated previously, our sample contains 100 observations (lamps), each of whic
 
 ## Parametric estimation
 
-Maximum likelihood estimation sorts under the umbrella of parametric statistics. This, in simple terms, implies that an assumption regarding the underlying probability distribution of the data has to be made. It is then the unknown parameter or parameters of that assumed probability distribution that is estimated using maximum likelihood-based methods. 
+Maximum likelihood estimation sorts under the umbrella of parametric statistics. This, in simple terms, implies that an assumption regarding the underlying probability distribution of the data has to be made. It is then the unknown parameter or parameters of that assumed probability distribution that is estimated using maximum likelihood-based methods. The end result is a parameter estimate that gives the highest likelihood of the assumed probability distribution having produced the observed data. 
 
-For the present lamp study, let us assume that it is known that lamps of the type relevant here has a lifespan $t$ that is exponentially distributed, that is
+For the present lamp study, let us assume that it is known that lamps of the type relevant here has a lifespan $t$ that is **exponentially distributed**, that is
 
 $$f(t) = \lambda e^{-\lambda t},$$ 
 
@@ -69,21 +71,25 @@ and where the expected value is
 
 $$\mu(s) = \frac{\beta}{s}, \quad s > 0,$$
 
-where $\beta > 0$ is an unknown parameter and $s$ equals the intensity with which the lamp has been used. Our focus of interest is to estimate the unknown parameter $\beta$. 
+where $\beta > 0$ is an unknown parameter and $s$ equals the intensity with which the lamp has been used. Our focus of interest is to estimate the unknown parameter $\beta$. We'll start with the analytical approach. 
 
-## Analytical MLE
+## Analytical maximum likelihood estimation
 
 We know that the expected value of an exponentially distributed random variable (say $t$) is given by:
 
-$E[t] = \frac{1}{\lambda}.$
+$$E[t] = \frac{1}{\lambda}.$$
 
-We also know that, for the relevant sample, the expected value is given by the formula described in the introduction.
+We also know that, for the relevant sample, the expected value is given by the formula in the previous section, that is 
+
+$$\mu(s) = \frac{\beta}{s}.$$
 
 We then have that $\frac{1}{\lambda} = \frac{\beta}{s}.$
 
 Solving for $\lambda$ we get that $\lambda = \frac{s}{\beta}.$
 
-Thus, substituting $\lambda$ with $\frac{s}{\beta}$, the likelihood function for one observation is given by $L(\beta) = \frac{s}{\beta}e^{-\frac{s}{\beta}t}.$
+Thus, substituting $\lambda$ with $\frac{s}{\beta}$, the likelihood function for *one* observation is given by 
+
+$$L(\beta) = \frac{s}{\beta}e^{-\frac{s}{\beta}t}.$$
 
 The likelihood function of the parameter $\beta$ given all observations is then given by:
 
@@ -150,7 +156,7 @@ n <- length(lamp_data$time)
 
 The maximum likelihood estimate is therefore $\hat \beta =$ `r beta_hat`.
 
-Let's implement the "entire process" of the above in `R` (and not just the calculation of the estimate).
+Let's implement the "entire process" of the above in `R` (and not just the calculation of the estimate). This is done by first implementing the log-likelihood function, and then using optimization (through the `optim()` function) to arrive at the estimate. 
 
 ```{r, echo = TRUE}
 
@@ -160,7 +166,7 @@ n <- length(lamp_data$time)
 
 beta_hat <- (1/n)*sum(lamp_data$intensity*lamp_data$time)
 
-# Formulate the log-likelihood function
+# Formulate the log-likelihood function as derived analytically
 
 log_ln <- function(beta){
   n <- length(lamp_data$time)
@@ -171,7 +177,7 @@ log_ln <- function(beta){
 
 # Calculating the maximum likelihood estimate
 
-optim_result <- optim(1.0,
+optim_result <- optim(1.0,                 
                       log_ln,
                       method = "Brent",
                       lower = 0.001,

@@ -111,7 +111,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","categories"]}},"value":[{"type":"character","attributes":{},"value":["Maximum likelihood estimation - an application in R"]},{"type":"character","attributes":{},"value":["Taking a gander at the workhorse of statistics and how it can be applied in R.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Rikard Wahlström"]}]}]},{"type":"character","attributes":{},"value":["07-11-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","categories"]}},"value":[{"type":"character","attributes":{},"value":["Maximum likelihood estimation - an application in R"]},{"type":"character","attributes":{},"value":["Taking a gander at the workhorse of statistics and how it can be applied in R.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Rikard Wahlström"]}]}]},{"type":"character","attributes":{},"value":["07-11-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["posts","R","statistics"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1469,6 +1469,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
 <div class="dt=tag">posts</div>
+<div class="dt=tag">R</div>
+<div class="dt=tag">statistics</div>
 </div>
 <!--/radix_placeholder_categories-->
 <p><p>Taking a gander at the workhorse of statistics and how it can be applied in R.</p></p>
@@ -1490,7 +1492,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <ul>
 <li><a href="#the-data">The data</a></li>
 <li><a href="#parametric-estimation">Parametric estimation</a></li>
-<li><a href="#analytical-mle">Analytical MLE</a></li>
+<li><a href="#analytical-maximum-likelihood-estimation">Analytical maximum likelihood estimation</a></li>
 <li><a href="#numerical-mle">Numerical MLE</a></li>
 <li><a href="#investigating-the-data">Investigating the data</a></li>
 </ul></li>
@@ -1502,8 +1504,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 </div>
 <h1 id="introduction">Introduction</h1>
-<p>Maximum likelihood estimation (MLE) is the workhorse of statistics when it comes to parameter estimation.</p>
-<p>In this post, I will showcase how MLE can be employed in parameter estimation. Using a simple case, this post will showcase both the analytical and the numerical derivation of the maximum likelihood estimates.</p>
+<p>Maximum likelihood estimation (MLE) is the workhorse of parametric statistics. It is the most common method for estimating unknown parameters of a probability distribution.</p>
+<p>In this post, I will showcase how MLE can be employed in parameter estimation. Using a simple case, I will show both how maximum likelihood estimation can be performed analytically (“by hand”) as well as numerically, with an implementation in <code>R</code>.</p>
 <h1 id="setting-the-stage">Setting the stage</h1>
 <h2 id="the-data">The data</h2>
 <p>Imagine that the lifespan (denoted as <span class="math inline">\(t\)</span>) of 100 lamps has been measured. Each lamp has been used with a constant intensity (denoted as <span class="math inline">\(s\)</span>) ranging from 0 to 1, where a value of <span class="math inline">\(0\)</span> implies that the lamp is turned off and a value of <span class="math inline">\(1\)</span> implies that the lamp is burning at its highest intensity.</p>
@@ -1520,22 +1522,42 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 Columns: 2
 $ time      &lt;dbl&gt; 2142.03757, 3568.83436, 1020.56774, 103.11813, 102~
 $ intensity &lt;dbl&gt; 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.~</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>lamp_data</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 100 x 2
+    time intensity
+   &lt;dbl&gt;     &lt;dbl&gt;
+ 1 2142.      0.01
+ 2 3569.      0.02
+ 3 1021.      0.03
+ 4  103.      0.04
+ 5 1022.      0.05
+ 6 2635.      0.06
+ 7  484.      0.07
+ 8  554.      0.08
+ 9 1430.      0.09
+10  772.      0.1 
+# ... with 90 more rows</code></pre>
 </div>
 <p>As stated previously, our sample contains 100 observations (lamps), each of which has been used with a different intensity (ranging from <span class="math inline">\(0.01\)</span> to <span class="math inline">\(1.00\)</span>).</p>
 <h2 id="parametric-estimation">Parametric estimation</h2>
 <p>Maximum likelihood estimation sorts under the umbrella of parametric statistics. This, in simple terms, implies that an assumption regarding the underlying probability distribution of the data has to be made. It is then the unknown parameter or parameters of that assumed probability distribution that is estimated using maximum likelihood-based methods.</p>
-<p>For the present lamp study, let us assume that it is known that lamps of the type relevant here has a lifespan <span class="math inline">\(t\)</span> that is exponentially distributed, that is</p>
+<p>For the present lamp study, let us assume that it is known that lamps of the type relevant here has a lifespan <span class="math inline">\(t\)</span> that is <strong>exponentially distributed</strong>, that is</p>
 <p><span class="math display">\[f(t) = \lambda e^{-\lambda t},\]</span></p>
 <p>and where the expected value is</p>
 <p><span class="math display">\[\mu(s) = \frac{\beta}{s}, \quad s &gt; 0,\]</span></p>
-<p>where <span class="math inline">\(\beta &gt; 0\)</span> is an unknown parameter and <span class="math inline">\(s\)</span> equals the intensity with which the lamp has been used. Our focus of interest is to estimate the unknown parameter <span class="math inline">\(\beta\)</span>.</p>
-<h2 id="analytical-mle">Analytical MLE</h2>
+<p>where <span class="math inline">\(\beta &gt; 0\)</span> is an unknown parameter and <span class="math inline">\(s\)</span> equals the intensity with which the lamp has been used. Our focus of interest is to estimate the unknown parameter <span class="math inline">\(\beta\)</span>. We’ll start with the analytical approach.</p>
+<h2 id="analytical-maximum-likelihood-estimation">Analytical maximum likelihood estimation</h2>
 <p>We know that the expected value of an exponentially distributed random variable (say <span class="math inline">\(t\)</span>) is given by:</p>
-<p><span class="math inline">\(E[t] = \frac{1}{\lambda}.\)</span></p>
-<p>We also know that, for the relevant sample, the expected value is given by the formula described in the introduction.</p>
+<p><span class="math display">\[E[t] = \frac{1}{\lambda}.\]</span></p>
+<p>We also know that, for the relevant sample, the expected value is given by the formula in the previous section, that is</p>
+<p><span class="math display">\[\mu(s) = \frac{\beta}{s}.\]</span></p>
 <p>We then have that <span class="math inline">\(\frac{1}{\lambda} = \frac{\beta}{s}.\)</span></p>
 <p>Solving for <span class="math inline">\(\lambda\)</span> we get that <span class="math inline">\(\lambda = \frac{s}{\beta}.\)</span></p>
-<p>Thus, substituting <span class="math inline">\(\lambda\)</span> with <span class="math inline">\(\frac{s}{\beta}\)</span>, the likelihood function for one observation is given by <span class="math inline">\(L(\beta) = \frac{s}{\beta}e^{-\frac{s}{\beta}t}.\)</span></p>
+<p>Thus, substituting <span class="math inline">\(\lambda\)</span> with <span class="math inline">\(\frac{s}{\beta}\)</span>, the likelihood function for <em>one</em> observation is given by</p>
+<p><span class="math display">\[L(\beta) = \frac{s}{\beta}e^{-\frac{s}{\beta}t}.\]</span></p>
 <p>The likelihood function of the parameter <span class="math inline">\(\beta\)</span> given all observations is then given by:</p>
 <p><span class="math display">\[\begin{aligned}
 L_n(\beta) = \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i}.
@@ -1640,7 +1662,7 @@ ln \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i} =
 </div>
 <p>From this, we can see that the ML estimate of <span class="math inline">\(\beta\)</span> seems reasonable.</p>
 <h1 id="conclusion">Conclusion</h1>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

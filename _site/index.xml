@@ -7,15 +7,17 @@
     <description>Reckoning syntopically with R
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 11 Jul 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Jul 2021 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Maximum likelihood estimation - an application in R</title>
       <dc:creator>Rikard Wahlström</dc:creator>
       <link>https://www.syntopicalreckoning.com/posts/2021-07-10-maximum-likelihood-estimation-an-application-in-r</link>
       <description>Taking a gander at the workhorse of statistics and how it can be applied in R.</description>
       <category>posts</category>
+      <category>R</category>
+      <category>statistics</category>
       <guid>https://www.syntopicalreckoning.com/posts/2021-07-10-maximum-likelihood-estimation-an-application-in-r</guid>
-      <pubDate>Sun, 11 Jul 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 10 Jul 2021 00:00:00 +0000</pubDate>
       <media:content url="https://www.syntopicalreckoning.com/posts/2021-07-10-maximum-likelihood-estimation-an-application-in-r/maximum-likelihood-estimation-an-application-in-r_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
   </channel>
