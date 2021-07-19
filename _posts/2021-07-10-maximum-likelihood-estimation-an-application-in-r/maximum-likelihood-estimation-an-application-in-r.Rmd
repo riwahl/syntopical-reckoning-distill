@@ -59,6 +59,19 @@ glimpse(lamp_data)
 
 As stated previously, our sample contains 100 observations (lamps), each of which has been used with a different intensity (ranging from $0.01$ to $1.00$).
 
+Let's plot the data to more easily see what we are dealing with.
+
+```{r}
+ggplot(lamp_data,aes(intensity, time)) +
+  geom_point() +
+  labs(x = "Intensity",
+       y = "Lifespan")
+```
+
+This does indeed seem to confirm what one might reasonably expect *a priori*: there seem to be a negative correlation between intensity and lifespan, i.e. the higher the intensity, the shorter the lifespan of the lamp, and vice versa. 
+
+Now, let's get to estimatin'. 
+
 ## Parametric estimation
 
 Maximum likelihood estimation sorts under the umbrella of parametric statistics. This, in simple terms, implies that an assumption regarding the underlying probability distribution of the data has to be made. It is then the unknown parameter or parameters of that assumed probability distribution that is estimated using maximum likelihood-based methods. The end result is a parameter estimate that gives the highest likelihood of the assumed probability distribution having produced the observed data. 
@@ -71,15 +84,19 @@ and where the expected value is
 
 $$\mu(s) = \frac{\beta}{s}, \quad s > 0,$$
 
-where $\beta > 0$ is an unknown parameter and $s$ equals the intensity with which the lamp has been used. Our focus of interest is to estimate the unknown parameter $\beta$. We'll start with the analytical approach. 
+where $\beta > 0$ is an unknown parameter and $s$ equals the intensity with which the lamp has been used. Our focus of interest is to estimate the unknown parameter $\beta$. We'll start with the analytical approach, followed by the numerical approach (implemented in `R`)
 
 ## Analytical maximum likelihood estimation
 
-We know that the expected value of an exponentially distributed random variable (say $t$) is given by:
+Let us start with an analytical approach to estimating our unknown parameter $\beta$. 
 
-$$E[t] = \frac{1}{\lambda}.$$
+First off, we know[^1] that the expected value of an exponentially distributed random variable (say $t$) is given by:
 
-We also know that, for the relevant sample, the expected value is given by the formula in the previous section, that is 
+[^1]: By "we know", I obviously mean "anyone with access to a run-of-the-mill collection of formulae from their statistics studies". 
+
+$$\mathbb E[t] = \frac{1}{\lambda}.$$
+
+We also know that, for the sample relevant in this case, the expected value is given by the equation in the previous section, that is 
 
 $$\mu(s) = \frac{\beta}{s}.$$
 
@@ -87,11 +104,11 @@ We then have that $\frac{1}{\lambda} = \frac{\beta}{s}.$
 
 Solving for $\lambda$ we get that $\lambda = \frac{s}{\beta}.$
 
-Thus, substituting $\lambda$ with $\frac{s}{\beta}$, the likelihood function for *one* observation is given by 
+Thus, substituting $\lambda$ with $\frac{s}{\beta}$, the **likelihood function** for *one* observation is given by 
 
 $$L(\beta) = \frac{s}{\beta}e^{-\frac{s}{\beta}t}.$$
 
-The likelihood function of the parameter $\beta$ given all observations is then given by:
+The likelihood function *given all observations* is then simply:
 
 $$\begin{aligned}
 L_n(\beta) = \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i}.
@@ -126,23 +143,23 @@ $$\begin{aligned}
 
 which is then the maximum likelihood estimate of $\beta$.
 
-## Numerical MLE 
+## Numerical maximum likelihood estimation
 
-Above, we saw how to analytically calculate the maximum likelihood estimate of $\beta$ by first defining the likelihood function, followed by the log-likelihood function and then taking the first derivative and solving for the parameter of interest. 
+Above, we saw how to analytically calculate the maximum likelihood estimate of $\beta$ by first defining the likelihood function (for one and all observations, respectively), followed by defining the log-likelihood function and then taking the first derivative and solving for the parameter of interest. 
 
 Let's implement this in `R` to get the numerical estimate. 
 
 ```{r}
 
-# Extract the time column
+# Extract the time column (t)
 
 t <- lamp_data %>% pull(time)
 
-# Extract the intensity column
+# Extract the intensity column (s)
 
 s <- lamp_data %>% pull(intensity)
 
-# Get the number of observations
+# Get the number of observations (n)
 
 n <- length(lamp_data$time)
 
@@ -195,9 +212,11 @@ round(beta_hat, 2)
 
 From the above, we see that the result is the same. 
 
-## Investigating the data
+## Is our estimate reasonable? 
 
-Below is a plot of the observations, together with regression line (calculated from the expected value of $t$, i.e. $E[t] = \frac{\hat \beta}{s_i}$, for each observation): 
+It is obviously of interest that our parameter estimate conforms somewhat to reality (as represented by our observed data).
+
+A cursory check for this can be done by plotting the observations together with regression line (calculated from the expected value of $t$, i.e. $E[t] = \frac{\hat \beta}{s_i}$, for each observation):
 
 
 ```{r, include = FALSE}
@@ -221,3 +240,4 @@ From this, we can see that the ML estimate of $\beta$ seems reasonable.
 
 # Conclusion
 
+This post has been a quick introduction to maximum likelihood estimation and how it can be done analytically and numerically, with an implementation in `R`. The data used here is meant to serve as a simple example, but the principles outlined are applicable in general (although the mathematics can get convoluted with more intricate distribution functions).

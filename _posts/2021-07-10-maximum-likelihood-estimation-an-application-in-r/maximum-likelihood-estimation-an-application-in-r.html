@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["lampor.csv","maximum-likelihood-estimation-an-application-in-r_files/anchor-4.2.2/anchor.min.js","maximum-likelihood-estimation-an-application-in-r_files/bowser-1.9.3/bowser.min.js","maximum-likelihood-estimation-an-application-in-r_files/distill-2.2.21/template.v2.js","maximum-likelihood-estimation-an-application-in-r_files/figure-html5/unnamed-chunk-5-1.png","maximum-likelihood-estimation-an-application-in-r_files/figure-html5/unnamed-chunk-6-1.png","maximum-likelihood-estimation-an-application-in-r_files/header-attrs-2.9/header-attrs.js","maximum-likelihood-estimation-an-application-in-r_files/jquery-1.11.3/jquery.min.js","maximum-likelihood-estimation-an-application-in-r_files/popper-2.6.0/popper.min.js","maximum-likelihood-estimation-an-application-in-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","maximum-likelihood-estimation-an-application-in-r_files/tippy-6.2.7/tippy-light-border.css","maximum-likelihood-estimation-an-application-in-r_files/tippy-6.2.7/tippy.css","maximum-likelihood-estimation-an-application-in-r_files/tippy-6.2.7/tippy.umd.min.js","maximum-likelihood-estimation-an-application-in-r_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["lampor.csv","maximum-likelihood-estimation-an-application-in-r_files/anchor-4.2.2/anchor.min.js","maximum-likelihood-estimation-an-application-in-r_files/bowser-1.9.3/bowser.min.js","maximum-likelihood-estimation-an-application-in-r_files/distill-2.2.21/template.v2.js","maximum-likelihood-estimation-an-application-in-r_files/figure-html5/unnamed-chunk-3-1.png","maximum-likelihood-estimation-an-application-in-r_files/figure-html5/unnamed-chunk-5-1.png","maximum-likelihood-estimation-an-application-in-r_files/figure-html5/unnamed-chunk-6-1.png","maximum-likelihood-estimation-an-application-in-r_files/figure-html5/unnamed-chunk-7-1.png","maximum-likelihood-estimation-an-application-in-r_files/header-attrs-2.9/header-attrs.js","maximum-likelihood-estimation-an-application-in-r_files/jquery-1.11.3/jquery.min.js","maximum-likelihood-estimation-an-application-in-r_files/popper-2.6.0/popper.min.js","maximum-likelihood-estimation-an-application-in-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","maximum-likelihood-estimation-an-application-in-r_files/tippy-6.2.7/tippy-light-border.css","maximum-likelihood-estimation-an-application-in-r_files/tippy-6.2.7/tippy.css","maximum-likelihood-estimation-an-application-in-r_files/tippy-6.2.7/tippy.umd.min.js","maximum-likelihood-estimation-an-application-in-r_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1493,8 +1493,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><a href="#the-data">The data</a></li>
 <li><a href="#parametric-estimation">Parametric estimation</a></li>
 <li><a href="#analytical-maximum-likelihood-estimation">Analytical maximum likelihood estimation</a></li>
-<li><a href="#numerical-mle">Numerical MLE</a></li>
-<li><a href="#investigating-the-data">Investigating the data</a></li>
+<li><a href="#numerical-maximum-likelihood-estimation">Numerical maximum likelihood estimation</a></li>
+<li><a href="#is-our-estimate-reasonable">Is our estimate reasonable?</a></li>
 </ul></li>
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
@@ -1524,23 +1524,37 @@ $ time      &lt;dbl&gt; 2142.03757, 3568.83436, 1020.56774, 103.11813, 102~
 $ intensity &lt;dbl&gt; 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.~</code></pre>
 </div>
 <p>As stated previously, our sample contains 100 observations (lamps), each of which has been used with a different intensity (ranging from <span class="math inline">\(0.01\)</span> to <span class="math inline">\(1.00\)</span>).</p>
+<p>Let’s plot the data to more easily see what we are dealing with.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>lamp_data</span>,<span class='fu'>aes</span><span class='op'>(</span><span class='va'>intensity</span>, <span class='va'>time</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Intensity"</span>,
+       y <span class='op'>=</span> <span class='st'>"Lifespan"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="maximum-likelihood-estimation-an-application-in-r_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<p>This does indeed seem to confirm what one might reasonably expect <em>a priori</em>: there seem to be a negative correlation between intensity and lifespan, i.e. the higher the intensity, the shorter the lifespan of the lamp, and vice versa.</p>
+<p>Now, let’s get to estimatin’.</p>
 <h2 id="parametric-estimation">Parametric estimation</h2>
 <p>Maximum likelihood estimation sorts under the umbrella of parametric statistics. This, in simple terms, implies that an assumption regarding the underlying probability distribution of the data has to be made. It is then the unknown parameter or parameters of that assumed probability distribution that is estimated using maximum likelihood-based methods. The end result is a parameter estimate that gives the highest likelihood of the assumed probability distribution having produced the observed data.</p>
 <p>For the present lamp study, let us assume that it is known that lamps of the type relevant here has a lifespan <span class="math inline">\(t\)</span> that is <strong>exponentially distributed</strong>, that is</p>
 <p><span class="math display">\[f(t) = \lambda e^{-\lambda t},\]</span></p>
 <p>and where the expected value is</p>
 <p><span class="math display">\[\mu(s) = \frac{\beta}{s}, \quad s &gt; 0,\]</span></p>
-<p>where <span class="math inline">\(\beta &gt; 0\)</span> is an unknown parameter and <span class="math inline">\(s\)</span> equals the intensity with which the lamp has been used. Our focus of interest is to estimate the unknown parameter <span class="math inline">\(\beta\)</span>. We’ll start with the analytical approach.</p>
+<p>where <span class="math inline">\(\beta &gt; 0\)</span> is an unknown parameter and <span class="math inline">\(s\)</span> equals the intensity with which the lamp has been used. Our focus of interest is to estimate the unknown parameter <span class="math inline">\(\beta\)</span>. We’ll start with the analytical approach, followed by the numerical approach (implemented in <code>R</code>)</p>
 <h2 id="analytical-maximum-likelihood-estimation">Analytical maximum likelihood estimation</h2>
-<p>We know that the expected value of an exponentially distributed random variable (say <span class="math inline">\(t\)</span>) is given by:</p>
-<p><span class="math display">\[E[t] = \frac{1}{\lambda}.\]</span></p>
-<p>We also know that, for the relevant sample, the expected value is given by the formula in the previous section, that is</p>
+<p>Let us start with an analytical approach to estimating our unknown parameter <span class="math inline">\(\beta\)</span>.</p>
+<p>First off, we know<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> that the expected value of an exponentially distributed random variable (say <span class="math inline">\(t\)</span>) is given by:</p>
+<p><span class="math display">\[\mathbb E[t] = \frac{1}{\lambda}.\]</span></p>
+<p>We also know that, for the sample relevant in this case, the expected value is given by the equation in the previous section, that is</p>
 <p><span class="math display">\[\mu(s) = \frac{\beta}{s}.\]</span></p>
 <p>We then have that <span class="math inline">\(\frac{1}{\lambda} = \frac{\beta}{s}.\)</span></p>
 <p>Solving for <span class="math inline">\(\lambda\)</span> we get that <span class="math inline">\(\lambda = \frac{s}{\beta}.\)</span></p>
-<p>Thus, substituting <span class="math inline">\(\lambda\)</span> with <span class="math inline">\(\frac{s}{\beta}\)</span>, the likelihood function for <em>one</em> observation is given by</p>
+<p>Thus, substituting <span class="math inline">\(\lambda\)</span> with <span class="math inline">\(\frac{s}{\beta}\)</span>, the <strong>likelihood function</strong> for <em>one</em> observation is given by</p>
 <p><span class="math display">\[L(\beta) = \frac{s}{\beta}e^{-\frac{s}{\beta}t}.\]</span></p>
-<p>The likelihood function of the parameter <span class="math inline">\(\beta\)</span> given all observations is then given by:</p>
+<p>The likelihood function <em>given all observations</em> is then simply:</p>
 <p><span class="math display">\[\begin{aligned}
 L_n(\beta) = \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i}.
 \end{aligned}\]</span></p>
@@ -1565,20 +1579,20 @@ ln \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i} =
 \hat \beta = \frac{1}{n}\sum_{i = 1}^n s_i t_i,
 \end{aligned}\]</span></p>
 <p>which is then the maximum likelihood estimate of <span class="math inline">\(\beta\)</span>.</p>
-<h2 id="numerical-mle">Numerical MLE</h2>
-<p>Above, we saw how to analytically calculate the maximum likelihood estimate of <span class="math inline">\(\beta\)</span> by first defining the likelihood function, followed by the log-likelihood function and then taking the first derivative and solving for the parameter of interest.</p>
+<h2 id="numerical-maximum-likelihood-estimation">Numerical maximum likelihood estimation</h2>
+<p>Above, we saw how to analytically calculate the maximum likelihood estimate of <span class="math inline">\(\beta\)</span> by first defining the likelihood function (for one and all observations, respectively), followed by defining the log-likelihood function and then taking the first derivative and solving for the parameter of interest.</p>
 <p>Let’s implement this in <code>R</code> to get the numerical estimate.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Extract the time column</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Extract the time column (t)</span>
 
 <span class='va'>t</span> <span class='op'>&lt;-</span> <span class='va'>lamp_data</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>time</span><span class='op'>)</span>
 
-<span class='co'># Extract the intensity column</span>
+<span class='co'># Extract the intensity column (s)</span>
 
 <span class='va'>s</span> <span class='op'>&lt;-</span> <span class='va'>lamp_data</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>intensity</span><span class='op'>)</span>
 
-<span class='co'># Get the number of observations</span>
+<span class='co'># Get the number of observations (n)</span>
 
 <span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>lamp_data</span><span class='op'>$</span><span class='va'>time</span><span class='op'>)</span>
 
@@ -1628,8 +1642,9 @@ ln \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i} =
 <pre><code>[1] 121.43</code></pre>
 </div>
 <p>From the above, we see that the result is the same.</p>
-<h2 id="investigating-the-data">Investigating the data</h2>
-<p>Below is a plot of the observations, together with regression line (calculated from the expected value of <span class="math inline">\(t\)</span>, i.e. <span class="math inline">\(E[t] = \frac{\hat \beta}{s_i}\)</span>, for each observation):</p>
+<h2 id="is-our-estimate-reasonable">Is our estimate reasonable?</h2>
+<p>It is obviously of interest that our parameter estimate conforms somewhat to reality (as represented by our observed data).</p>
+<p>A cursory check for this can be done by plotting the observations together with regression line (calculated from the expected value of <span class="math inline">\(t\)</span>, i.e. <span class="math inline">\(E[t] = \frac{\hat \beta}{s_i}\)</span>, for each observation):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>lamp_data</span>,<span class='fu'>aes</span><span class='op'>(</span><span class='va'>intensity</span>, <span class='va'>time</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
@@ -1640,11 +1655,18 @@ ln \prod_{i = 1}^{n}\frac{s_i}{\beta}e^{-\frac{s_i}{\beta}t_i} =
        title <span class='op'>=</span> <span class='st'>"Regression plot Time ~ Intensity"</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="maximum-likelihood-estimation-an-application-in-r_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+<p><img src="maximum-likelihood-estimation-an-application-in-r_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
 </div>
 <p>From this, we can see that the ML estimate of <span class="math inline">\(\beta\)</span> seems reasonable.</p>
 <h1 id="conclusion">Conclusion</h1>
+<p>This post has been a quick introduction to maximum likelihood estimation and how it can be done analytically and numerically, with an implementation in <code>R</code>. The data used here is meant to serve as a simple example, but the principles outlined are applicable in general (although the mathematics can get convoluted with more intricate distribution functions).</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>By “we know”, I obviously mean “anyone with access to a run-of-the-mill collection of formulae from their statistics studies”.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
