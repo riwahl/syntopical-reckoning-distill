@@ -8,6 +8,7 @@ description: |
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Links
+# Newsletters
 
-*some useful links*
+- [Data Science Association](https://www.datascienceassn.org/newsletters)
+- [Data Elixir](https://dataelixir.com/)
